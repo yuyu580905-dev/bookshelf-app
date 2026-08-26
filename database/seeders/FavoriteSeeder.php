@@ -13,7 +13,7 @@ class FavoriteSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = User::pluck('id', 'email');
+        $users = User::all()->keyBy('email');
         $books = Book::pluck('id', 'isbn');
 
         $users['yamada@example.com']

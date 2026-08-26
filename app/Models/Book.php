@@ -21,13 +21,18 @@ class Book extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function users()
+    public function reviews()
     {
-        return $this->belongsToMany(User::class);
+        return $this->hasMany(Review::class);
+    }
+
+    public function favoritedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'favorites');
     }
 
     public function genres()
     {
-        return $this->belongsToMany(Genre::class);
+        return $this->belongsToMany(Genre::class, 'book_genre');
     }
 }
