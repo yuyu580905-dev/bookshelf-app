@@ -2,8 +2,8 @@
 
 use App\Providers\AppServiceProvider;
 use App\Providers\EventServiceProvider;
-use App\Providers\RouteServiceProvider;
 use App\Providers\FortifyServiceProvider;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 

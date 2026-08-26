@@ -1,7 +1,7 @@
 <?php
 
-use Laravel\Fortify\Features;
 use App\Providers\RouteServiceProvider;
+use Laravel\Fortify\Features;
 
 return [
 
@@ -154,7 +154,7 @@ return [
         //     'confirm' => true,
         //     'confirmPassword' => true,
         // 'window' => 0,
-        //]),
+        // ]),
     ],
 
 ];

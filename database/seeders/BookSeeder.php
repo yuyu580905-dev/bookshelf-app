@@ -133,7 +133,7 @@ class BookSeeder extends Seeder
             );
 
             $genreIds = collect($bookData['genres'])
-                ->map(fn($genre) => $genres[$genre])
+                ->map(fn ($genre) => $genres[$genre])
                 ->toArray();
 
             $book->genres()->sync($genreIds);

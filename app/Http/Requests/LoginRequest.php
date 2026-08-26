@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Laravel\Fortify\Http\Requests\LoginRequest as FortifyLoginRequest;
 
 class LoginRequest extends FortifyLoginRequest
@@ -17,13 +18,13 @@ class LoginRequest extends FortifyLoginRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
             'email' => ['required', 'email'],
-            'password' => ['required', 'min:8']
+            'password' => ['required', 'min:8'],
         ];
     }
 
