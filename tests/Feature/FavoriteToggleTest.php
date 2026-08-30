@@ -14,6 +14,7 @@ class FavoriteToggleTest extends TestCase
 {
     use RefreshDatabase;
 
+    // 認証済みユーザーがお気に入りボタンを押すと、お気に入りに追加されるテスト
     public function test_authenticated_user_can_add_book_to_favorites(): void
     {
         $this->seed([
@@ -37,6 +38,7 @@ class FavoriteToggleTest extends TestCase
         ]);
     }
 
+    // 認証済みユーザーがお気に入り登録済みの本を押すと解除されるテスト
     public function test_authenticated_user_can_remove_book_from_favorites(): void
     {
         $this->seed([
@@ -67,6 +69,7 @@ class FavoriteToggleTest extends TestCase
         ]);
     }
 
+    // ゲストユーザーがお気に入りボタンを押すとログインページにリダイレクトされるテスト
     public function test_guest_is_redirected_to_login_when_toggling_favorite(): void
     {
         $this->seed([
