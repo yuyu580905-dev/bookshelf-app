@@ -21,7 +21,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/reviews/{review}/edit', [BookController::class, 'editReview'])->name('reviews.store');
 });
 
-//公開ページのルート
+// 公開ページのルート
 Route::get('/', [BookController::class, 'index'])->name('books.index');
 Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
 Route::get('/ranking', [RankingController::class, 'index'])->name('ranking.index');
