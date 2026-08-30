@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\RankingController;
@@ -9,7 +10,9 @@ use Illuminate\Support\Facades\Route;
 // 認証済みユーザーのみアクセス可能なルートをグループ化
 Route::middleware('auth')->group(function () {
     Route::get('/books/create', [BookController::class, 'create'])->name('books.create');
-    Route::get('/books/{book}/edit', [BookController::class, 'edit'])->name('books.store');
+    Route::post('/books', [BookController::class, 'store'])->name('books.store');
+    Route::get('/books/{book}/edit', [BookController::class, 'edit'])->name('books.edit');
+    Route::post('/books/{book}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
     Route::post('/books/{book}/favorites', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
     Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
     Route::get('/genres', [GenreController::class, 'index'])->name('genres.index');
@@ -18,7 +21,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/genres/{genre}/edit', [GenreController::class, 'edit'])->name('genres.edit');
     Route::delete('/genres/{genre}', [GenreController::class, 'destroy'])->name('genres.destroy');
     Route::post('/reviews/{review}/like', [BookController::class, 'likeReview'])->name('reviews.like');
-    Route::get('/reviews/{review}/edit', [BookController::class, 'editReview'])->name('reviews.store');
+    Route::get('/reviews/{review}/edit', [BookController::class, 'editReview'])->name('reviews.edit');
 });
 
 // 公開ページのルート
