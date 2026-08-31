@@ -22,7 +22,6 @@ class LogoutTest extends TestCase
         $this->assertGuest();
 
         // ログアウト後、ログイン画面にリダイレクトされることを確認
-        $response->assertRedirect('/');
-        $this->get('/')->assertRedirect('/login');
+        $response->assertRedirect('/login');
     }
 }
