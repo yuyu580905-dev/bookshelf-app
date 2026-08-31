@@ -12,6 +12,7 @@ class ReviewLikeTest extends TestCase
 {
     use RefreshDatabase;
 
+    // 認証済みユーザーがレビューにいいねできることを確認するテスト
     public function test_authenticated_user_can_like_review(): void
     {
         $user = User::factory()->create();
@@ -33,6 +34,7 @@ class ReviewLikeTest extends TestCase
         ]);
     }
 
+    // 認証済みユーザーがレビューのいいねを解除できることを確認するテスト
     public function test_authenticated_user_can_unlike_review(): void
     {
         $user = User::factory()->create();
@@ -56,6 +58,7 @@ class ReviewLikeTest extends TestCase
         ]);
     }
 
+    // ゲストユーザーがレビューのいいねを押した場合、ログインページにリダイレクトされることを確認するテスト
     public function test_guest_is_redirected_to_login_when_liking_review(): void
     {
         $book = Book::factory()->create();

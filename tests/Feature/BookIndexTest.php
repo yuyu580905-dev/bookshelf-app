@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\Book;
+use App\Models\Genre;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -12,7 +14,9 @@ class BookIndexTest extends TestCase
     // ゲストユーザーが書籍一覧ページにアクセスできることを確認するテスト
     public function test_guest_can_view_book_index()
     {
-        $this->seed();
+        Book::factory()->create([
+            'title' => '吾輩は猫である',
+        ]);
 
         $response = $this->get('/');
 
@@ -23,7 +27,7 @@ class BookIndexTest extends TestCase
     // 書籍一覧が10件ずつページネーションされることを確認するテスト
     public function test_books_are_paginated_by_10()
     {
-        $this->seed();
+        Book::factory()->count(11)->create();
 
         $response = $this->get('/');
 
@@ -41,7 +45,20 @@ class BookIndexTest extends TestCase
     // 書籍に紐づくジャンルが表示されることを確認するテスト
     public function test_book_genres_are_displayed()
     {
-        $this->seed();
+        $novel = Genre::factory()->create([
+            'name' => '小説',
+        ]);
+
+        $business = Genre::factory()->create([
+            'name' => 'ビジネス',
+        ]);
+
+        $book = Book::factory()->create();
+
+        $book->genres()->attach([
+            $novel->id,
+            $business->id,
+        ]);
 
         $response = $this->get('/');
 

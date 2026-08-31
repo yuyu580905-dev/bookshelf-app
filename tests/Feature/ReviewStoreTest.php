@@ -4,9 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\Book;
 use App\Models\User;
-use Database\Seeders\BookSeeder;
-use Database\Seeders\GenreSeeder;
-use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -17,14 +14,11 @@ class ReviewStoreTest extends TestCase
     // 認証済みユーザーがレビューを投稿できることを確認するテスト
     public function test_authenticated_user_can_store_review(): void
     {
-        $this->seed([
-            UserSeeder::class,
-            GenreSeeder::class,
-            BookSeeder::class,
-        ]);
+        $user = User::factory()->create();
 
-        $user = User::first();
-        $book = Book::first();
+        $book = Book::factory()->create([
+            'user_id' => $user->id,
+        ]);
 
         $this->actingAs($user);
 
@@ -46,14 +40,11 @@ class ReviewStoreTest extends TestCase
     // レビューの評価が1未満の場合、バリデーションエラーとなることを確認するテスト
     public function test_review_rating_must_be_at_least_one(): void
     {
-        $this->seed([
-            UserSeeder::class,
-            GenreSeeder::class,
-            BookSeeder::class,
-        ]);
+        $user = User::factory()->create();
 
-        $user = User::first();
-        $book = Book::first();
+        $book = Book::factory()->create([
+            'user_id' => $user->id,
+        ]);
 
         $this->actingAs($user);
 
@@ -74,14 +65,11 @@ class ReviewStoreTest extends TestCase
     // レビューの評価が5を超える場合、バリデーションエラーとなることを確認するテスト
     public function test_review_rating_must_not_exceed_five(): void
     {
-        $this->seed([
-            UserSeeder::class,
-            GenreSeeder::class,
-            BookSeeder::class,
-        ]);
+        $user = User::factory()->create();
 
-        $user = User::first();
-        $book = Book::first();
+        $book = Book::factory()->create([
+            'user_id' => $user->id,
+        ]);
 
         $this->actingAs($user);
 
@@ -102,13 +90,7 @@ class ReviewStoreTest extends TestCase
     // ゲストユーザーがレビューを投稿しようとした場合、ログインページにリダイレクトされることを確認するテスト
     public function test_guest_is_redirected_to_login_when_storing_review(): void
     {
-        $this->seed([
-            UserSeeder::class,
-            GenreSeeder::class,
-            BookSeeder::class,
-        ]);
-
-        $book = Book::first();
+        $book = Book::factory()->create();
 
         $response = $this->post(route('reviews.store', $book), [
             'rating' => 5,
