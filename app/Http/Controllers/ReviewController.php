@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreReviewRequest;
+use App\Http\Requests\UpdateReviewRequest;
 use App\Models\Book;
 use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
@@ -24,5 +25,14 @@ class ReviewController extends Controller
         $this->authorize('update', $review);
 
         return view('reviews.edit', compact('review'));
+    }
+
+    public function update(UpdateReviewRequest $request, Review $review)
+    {
+        $this->authorize('update', $review);
+
+        $review->update($request->validated());
+
+        return redirect()->route('books.show', $review->book);
     }
 }
