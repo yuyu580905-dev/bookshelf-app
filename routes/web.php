@@ -14,6 +14,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/books', [BookController::class, 'store'])->name('books.store');
     Route::get('/books/{book}/edit', [BookController::class, 'edit'])->name('books.edit');
     Route::post('/books/{book}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    Route::get('/reviews/{review}/edit', [ReviewController::class, 'edit'])->name('reviews.edit');
+    Route::put('/reviews/{review}', [ReviewController::class, 'update'])->name('reviews.update');
+    Route::post('/reviews/{review}/like', [ReviewLikeController::class, 'reviewLike'])->name('reviews.like');
     Route::post('/books/{book}/favorites', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
     Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
     Route::get('/genres', [GenreController::class, 'index'])->name('genres.index');
@@ -21,8 +24,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/genres/{genre}', [GenreController::class, 'show'])->name('genres.show');
     Route::get('/genres/{genre}/edit', [GenreController::class, 'edit'])->name('genres.edit');
     Route::delete('/genres/{genre}', [GenreController::class, 'destroy'])->name('genres.destroy');
-    Route::post('/reviews/{review}/like', [ReviewLikeController::class, 'reviewLike'])->name('reviews.like');
-    Route::get('/reviews/{review}/edit', [ReviewController::class, 'reviewEdit'])->name('reviews.edit');
 });
 
 // 公開ページのルート
