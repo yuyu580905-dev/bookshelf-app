@@ -11,12 +11,13 @@ class FavoriteToggleTest extends TestCase
 {
     use RefreshDatabase;
 
-    // 認証済みユーザーがお気に入りボタンを押すと、お気に入りに追加されるテスト
-    public function test_authenticated_user_can_add_book_to_favorites(): void
+    // 認証済みユーザーがお気に入りを追加・解除・再追加できるテスト
+    public function test_authenticated_user_can_toggle_book_favorite(): void
     {
         $user = User::factory()->create();
         $book = Book::factory()->create();
 
+        // ① お気に入りに追加
         $response = $this
             ->actingAs($user)
             ->post(route('favorites.toggle', $book));
@@ -27,21 +28,8 @@ class FavoriteToggleTest extends TestCase
             'user_id' => $user->id,
             'book_id' => $book->id,
         ]);
-    }
 
-    // 認証済みユーザーがお気に入り登録済みの本を押すと解除されるテスト
-    public function test_authenticated_user_can_remove_book_from_favorites(): void
-    {
-        $user = User::factory()->create();
-        $book = Book::factory()->create();
-
-        $user->favoriteBooks()->attach($book->id);
-
-        $this->assertDatabaseHas('favorites', [
-            'user_id' => $user->id,
-            'book_id' => $book->id,
-        ]);
-
+        // ② お気に入りを解除
         $response = $this
             ->actingAs($user)
             ->post(route('favorites.toggle', $book));
@@ -49,6 +37,18 @@ class FavoriteToggleTest extends TestCase
         $response->assertRedirect(route('books.show', $book));
 
         $this->assertDatabaseMissing('favorites', [
+            'user_id' => $user->id,
+            'book_id' => $book->id,
+        ]);
+
+        // ③ お気に入りに再追加
+        $response = $this
+            ->actingAs($user)
+            ->post(route('favorites.toggle', $book));
+
+        $response->assertRedirect(route('books.show', $book));
+
+        $this->assertDatabaseHas('favorites', [
             'user_id' => $user->id,
             'book_id' => $book->id,
         ]);

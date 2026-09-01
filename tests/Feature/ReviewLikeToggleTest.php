@@ -8,12 +8,12 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class ReviewLikeTest extends TestCase
+class ReviewLikeToggleTest extends TestCase
 {
     use RefreshDatabase;
 
-    // 認証済みユーザーがレビューにいいねできることを確認するテスト
-    public function test_authenticated_user_can_like_review(): void
+    // 認証済みユーザーがレビューのいいねを追加・解除・再追加できることを確認するテスト
+    public function test_authenticated_user_can_toggle_review_like(): void
     {
         $user = User::factory()->create();
         $book = Book::factory()->create();
@@ -22,6 +22,7 @@ class ReviewLikeTest extends TestCase
             'book_id' => $book->id,
         ]);
 
+        // ① いいねを追加
         $response = $this->actingAs($user)->post(
             route('reviews.like', $review)
         );
@@ -32,20 +33,8 @@ class ReviewLikeTest extends TestCase
             'user_id' => $user->id,
             'review_id' => $review->id,
         ]);
-    }
 
-    // 認証済みユーザーがレビューのいいねを解除できることを確認するテスト
-    public function test_authenticated_user_can_unlike_review(): void
-    {
-        $user = User::factory()->create();
-        $book = Book::factory()->create();
-        $review = Review::factory()->create([
-            'user_id' => User::factory()->create()->id,
-            'book_id' => $book->id,
-        ]);
-
-        $user->likedReviews()->attach($review->id);
-
+        // ② いいねを解除
         $response = $this->actingAs($user)->post(
             route('reviews.like', $review)
         );
@@ -53,6 +42,18 @@ class ReviewLikeTest extends TestCase
         $response->assertRedirect(route('books.show', $book));
 
         $this->assertDatabaseMissing('review_likes', [
+            'user_id' => $user->id,
+            'review_id' => $review->id,
+        ]);
+
+        // ③ いいねを再追加
+        $response = $this->actingAs($user)->post(
+            route('reviews.like', $review)
+        );
+
+        $response->assertRedirect(route('books.show', $book));
+
+        $this->assertDatabaseHas('review_likes', [
             'user_id' => $user->id,
             'review_id' => $review->id,
         ]);
