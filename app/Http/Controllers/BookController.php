@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Genre;
 
 class BookController extends Controller
 {
@@ -21,8 +22,10 @@ class BookController extends Controller
         return view('books.show', compact('book'));
     }
 
-    public function create(Book $book)
+    public function create()
     {
-        return view('books.create', compact('book'));
+        $genres = Genre::all();
+
+        return view('books.create', compact('genres'));
     }
 }
