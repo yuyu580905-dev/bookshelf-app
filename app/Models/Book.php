@@ -13,7 +13,10 @@ class Book extends Model
         'user_id',
         'title',
         'author',
+        'isbn',
+        'published_date',
         'description',
+        'image_url',
     ];
 
     public function user()
