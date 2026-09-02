@@ -42,7 +42,7 @@ class ReviewUpdateTest extends TestCase
         ]);
     }
 
-    // 他ユーザーが他人のレビューを更新できないことを確認するテスト
+    // 他ユーザーが他人のレビューを更新しようとした場合、403になることを確認するテスト
     public function test_non_owner_cannot_update_review(): void
     {
         $user = User::factory()->create();
@@ -71,7 +71,7 @@ class ReviewUpdateTest extends TestCase
         ]);
     }
 
-    // ゲストユーザーがレビューを更新するとログインページにリダイレクトされることを確認するテスト
+    // ゲストユーザーがレビューを更新しようとした場合、ログインページにリダイレクトされることを確認するテスト
     public function test_guest_is_redirected_to_login_when_updating_review(): void
     {
         $book = Book::factory()->create();
