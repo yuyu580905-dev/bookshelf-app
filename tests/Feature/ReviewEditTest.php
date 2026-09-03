@@ -12,7 +12,9 @@ class ReviewEditTest extends TestCase
 {
     use RefreshDatabase;
 
-    // レビュー投稿者本人が編集画面にアクセスできることを確認するテスト
+    /**
+     * レビュー投稿者本人が編集画面にアクセスできる
+     */
     public function test_review_owner_can_access_edit_page(): void
     {
         $user = User::factory()->create();
@@ -31,7 +33,9 @@ class ReviewEditTest extends TestCase
         $response->assertViewHas('review', $review);
     }
 
-    // 他ユーザーが他人のレビュー編集画面にアクセスすると403になることを確認するテスト
+    /**
+     * 他ユーザーが他人のレビュー編集画面にアクセスすると403になる
+     */
     public function test_non_owner_cannot_access_edit_page(): void
     {
         $user = User::factory()->create();
@@ -49,7 +53,9 @@ class ReviewEditTest extends TestCase
         $response->assertForbidden();
     }
 
-    // ゲストユーザーがレビュー編集画面にアクセスするとログインページにリダイレクトされることを確認するテスト
+    /**
+     * ゲストユーザーがレビュー編集画面にアクセスするとログインページにリダイレクトされる
+     */
     public function test_guest_is_redirected_to_login_when_accessing_edit_page(): void
     {
         $book = Book::factory()->create();

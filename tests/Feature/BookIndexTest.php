@@ -11,7 +11,9 @@ class BookIndexTest extends TestCase
 {
     use RefreshDatabase;
 
-    // ゲストユーザーが書籍一覧ページにアクセスできることを確認するテスト
+    /**
+     * ゲストユーザーが書籍一覧ページにアクセスできる
+     */
     public function test_guest_can_view_book_index()
     {
         Book::factory()->create([
@@ -24,7 +26,9 @@ class BookIndexTest extends TestCase
         $response->assertSee('吾輩は猫である');
     }
 
-    // 書籍一覧が10件ずつページネーションされることを確認するテスト
+    /**
+     * 書籍一覧が10件ずつページネーションされる
+     */
     public function test_books_are_paginated_by_10()
     {
         Book::factory()->count(11)->create();
@@ -42,7 +46,9 @@ class BookIndexTest extends TestCase
         $this->assertCount(1, $response->viewData('books'));
     }
 
-    // 書籍に紐づくジャンルが表示されることを確認するテスト
+    /**
+     * 書籍に紐づくジャンルが表示される
+     */
     public function test_book_genres_are_displayed()
     {
         $novel = Genre::factory()->create([

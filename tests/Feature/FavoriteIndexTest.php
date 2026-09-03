@@ -104,7 +104,7 @@ class FavoriteIndexTest extends TestCase
     }
 
     /**
-     * お気に入り書籍のタイトルから書籍詳細画面へ遷移できること
+     * お気に入り書籍のタイトルから書籍詳細画面へ遷移できる
      */
     public function test_favorite_book_title_links_to_book_detail(): void
     {

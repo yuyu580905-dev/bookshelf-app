@@ -9,7 +9,9 @@ class RegisterTest extends TestCase
 {
     use RefreshDatabase;
 
-    // 名前が未入力の場合バリデーションメッセージが表示されるテスト
+    /**
+     * 名前が未入力の場合バリデーションメッセージが表示される
+     */
     public function test_name_is_required(): void
     {
         $response = $this->post('/register', [
@@ -25,7 +27,9 @@ class RegisterTest extends TestCase
         ]);
     }
 
-    // メールアドレスが未入力の場合バリデーションメッセージが表示されるテスト
+    /**
+     * メールアドレスが未入力の場合バリデーションメッセージが表示される
+     */
     public function test_email_is_required(): void
     {
         $response = $this->post('/register', [
@@ -41,7 +45,9 @@ class RegisterTest extends TestCase
         ]);
     }
 
-    // パスワードが8文字未満の場合バリデーションメッセージが表示されるテスト
+    /**
+     * パスワードが8文字未満の場合バリデーションメッセージが表示される
+     */
     public function test_password_must_be_at_least_8_characters(): void
     {
         $response = $this->post('/register', [
@@ -57,7 +63,9 @@ class RegisterTest extends TestCase
         ]);
     }
 
-    // パスワードが一致しない場合バリデーションメッセージが表示されるテスト
+    /**
+     * パスワードが一致しない場合バリデーションメッセージが表示される
+     */
     public function test_password_confirmation_does_not_match(): void
     {
         $response = $this->post('/register', [
@@ -73,7 +81,9 @@ class RegisterTest extends TestCase
         ]);
     }
 
-    // パスワードが未入力の場合バリデーションメッセージが表示されるテスト
+    /**
+     * パスワードが未入力の場合バリデーションメッセージが表示される
+     */
     public function test_password_is_required(): void
     {
         $response = $this->post('/register', [
@@ -89,7 +99,9 @@ class RegisterTest extends TestCase
         ]);
     }
 
-    // 正しいユーザー情報を入力した場合、ユーザーが正常に登録されるテスト
+    /**
+     * 正しいユーザー情報を入力した場合、ユーザーが正常に登録される
+     */
     public function test_user_can_register_with_valid_data(): void
     {
         $userData = [

@@ -12,7 +12,9 @@ class BookStoreTest extends TestCase
 {
     use RefreshDatabase;
 
-    // 正常な入力で書籍が登録され、ジャンルが紐付けられる
+    /**
+     * 正常な入力で書籍が登録され、ジャンルが紐付けられる
+     */
     public function test_book_can_be_created_with_genres(): void
     {
         $user = User::factory()->create();
@@ -53,7 +55,9 @@ class BookStoreTest extends TestCase
         }
     }
 
-    // 必須項目が未入力の場合はバリデーションエラーになる
+    /**
+     * 必須項目が未入力の場合はバリデーションエラーになる
+     */
     public function test_required_fields_are_validated(): void
     {
         $user = User::factory()->create();
@@ -73,7 +77,9 @@ class BookStoreTest extends TestCase
         $this->assertDatabaseCount('books', 0);
     }
 
-    // ISBNが13桁でない場合はバリデーションエラーになる
+    /**
+     * ISBNが13桁でない場合はバリデーションエラーになる
+     */
     public function test_isbn_must_be_13_digits(): void
     {
         $user = User::factory()->create();
@@ -93,7 +99,9 @@ class BookStoreTest extends TestCase
         $this->assertDatabaseCount('books', 0);
     }
 
-    // ISBNが重複している場合はバリデーションエラーになる
+    /**
+     * ISBNが重複している場合はバリデーションエラーになる
+     */
     public function test_isbn_must_be_unique(): void
     {
         $user = User::factory()->create();
@@ -117,7 +125,9 @@ class BookStoreTest extends TestCase
         $this->assertDatabaseCount('books', 1);
     }
 
-    // 出版日が有効な日付でない場合はバリデーションエラーになる
+    /**
+     * 出版日が有効な日付でない場合はバリデーションエラーになる
+     */
     public function test_published_date_must_be_valid_date(): void
     {
         $user = User::factory()->create();
@@ -137,7 +147,9 @@ class BookStoreTest extends TestCase
         $this->assertDatabaseCount('books', 0);
     }
 
-    // ジャンルを1つ以上選択する必要がある
+    /**
+     * ジャンルは1つ以上選択する必要がある
+     */
     public function test_at_least_one_genre_is_required(): void
     {
         $user = User::factory()->create();
@@ -156,7 +168,9 @@ class BookStoreTest extends TestCase
         $this->assertDatabaseCount('books', 0);
     }
 
-    // 存在しないジャンルIDは指定できない
+    /**
+     * 存在しないジャンルIDは指定できない
+     */
     public function test_genres_must_exist(): void
     {
         $user = User::factory()->create();
@@ -175,7 +189,9 @@ class BookStoreTest extends TestCase
         $this->assertDatabaseCount('books', 0);
     }
 
-    // 画像URLがURL形式でない場合はバリデーションエラーになる
+    /**
+     * 画像URLがURL形式でない場合はバリデーションエラーになる
+     */
     public function test_image_url_must_be_valid_url(): void
     {
         $user = User::factory()->create();
@@ -196,7 +212,9 @@ class BookStoreTest extends TestCase
         $this->assertDatabaseCount('books', 0);
     }
 
-    // 未認証ユーザーはログイン画面へリダイレクトされる
+    /**
+     * 未認証ユーザーはログイン画面へリダイレクトされる
+     */
     public function test_guest_cannot_create_book(): void
     {
         $genre = Genre::factory()->create();

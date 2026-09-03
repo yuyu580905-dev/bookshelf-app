@@ -12,7 +12,9 @@ class ReviewUpdateTest extends TestCase
 {
     use RefreshDatabase;
 
-    // レビュー投稿者本人がレビューを更新できることを確認するテスト
+    /**
+     * レビュー投稿者本人がレビューを更新できる
+     */
     public function test_review_owner_can_update_review(): void
     {
         $user = User::factory()->create();
@@ -42,7 +44,9 @@ class ReviewUpdateTest extends TestCase
         ]);
     }
 
-    // 他ユーザーが他人のレビューを更新しようとした場合、403になることを確認するテスト
+    /**
+     * 他ユーザーが他人のレビューを更新しようとした場合、403になる
+     */
     public function test_non_owner_cannot_update_review(): void
     {
         $user = User::factory()->create();
@@ -71,7 +75,9 @@ class ReviewUpdateTest extends TestCase
         ]);
     }
 
-    // ゲストユーザーがレビューを更新しようとした場合、ログインページにリダイレクトされることを確認するテスト
+    /**
+     * ゲストユーザーがレビューを更新しようとした場合、ログインページにリダイレクトされる
+     */
     public function test_guest_is_redirected_to_login_when_updating_review(): void
     {
         $book = Book::factory()->create();
@@ -96,7 +102,9 @@ class ReviewUpdateTest extends TestCase
         ]);
     }
 
-    // バリデーションエラーの場合、レビューが更新されないことを確認するテスト
+    /**
+     * バリデーションエラーの場合、レビューが更新されない
+     */
     public function test_review_is_not_updated_with_invalid_data(): void
     {
         $user = User::factory()->create();

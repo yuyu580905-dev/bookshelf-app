@@ -12,7 +12,9 @@ class ReviewLikeToggleTest extends TestCase
 {
     use RefreshDatabase;
 
-    // 認証済みユーザーがレビューのいいねを追加・解除・再追加できることを確認するテスト
+    /**
+     * 認証済みユーザーがレビューのいいねを追加・解除・再追加できる
+     */
     public function test_authenticated_user_can_toggle_review_like(): void
     {
         $user = User::factory()->create();
@@ -59,7 +61,9 @@ class ReviewLikeToggleTest extends TestCase
         ]);
     }
 
-    // ゲストユーザーがレビューのいいねを押した場合、ログインページにリダイレクトされることを確認するテスト
+    /**
+     * ゲストユーザーがレビューのいいねを押した場合、ログインページにリダイレクトされる
+     */
     public function test_guest_is_redirected_to_login_when_liking_review(): void
     {
         $book = Book::factory()->create();

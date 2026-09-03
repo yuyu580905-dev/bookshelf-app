@@ -10,7 +10,9 @@ class LogoutTest extends TestCase
 {
     use RefreshDatabase;
 
-    // ログアウト後にログイン画面にリダイレクトされることを確認するテスト
+    /**
+     * ログアウト後にログイン画面にリダイレクトされる
+     */
     public function test_users_can_logout()
     {
         $user = User::factory()->create();

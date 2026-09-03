@@ -10,7 +10,9 @@ class LoginTest extends TestCase
 {
     use RefreshDatabase;
 
-    // メールアドレスが未入力の場合バリデーションメッセージが表示されるテスト
+    /**
+     * メールアドレスが未入力の場合バリデーションメッセージが表示される
+     */
     public function test_email_is_required(): void
     {
         $response = $this->post('/login', [
@@ -23,7 +25,9 @@ class LoginTest extends TestCase
         ]);
     }
 
-    // パスワードが未入力の場合バリデーションメッセージが表示されるテスト
+    /**
+     * パスワードが未入力の場合バリデーションメッセージが表示される
+     */
     public function test_password_is_required(): void
     {
         $user = User::factory()->create([
@@ -40,7 +44,9 @@ class LoginTest extends TestCase
         ]);
     }
 
-    // 登録内容と一致しない場合バリデーションメッセージが表示されるテスト
+    /**
+     * 登録内容と一致しない場合バリデーションメッセージが表示される
+     */
     public function test_login_fails_with_invalid_credentials(): void
     {
         User::factory()->create([
@@ -58,7 +64,9 @@ class LoginTest extends TestCase
         ]);
     }
 
-    // 正しいユーザー情報を入力した場合、ユーザーが正常にログインできることを確認するテスト
+    /**
+     * 正しいユーザー情報を入力した場合、ユーザーが正常にログインできる
+     */
     public function test_user_can_login(): void
     {
         $user = User::factory()->create([
