@@ -28,7 +28,7 @@ class BookStoreRequest extends FormRequest
             'isbn' => ['required', 'digits:13', 'unique:books,isbn'],
             'published_date' => ['required', 'date'],
             'description' => ['nullable', 'string'],
-            'image_url' => ['nullable', 'url'],
+            'image_url' => ['nullable', 'url', 'max:255'],
             'genres' => ['required', 'array', 'min:1'],
             'genres.*' => ['exists:genres,id'],
         ];
@@ -37,17 +37,23 @@ class BookStoreRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'title.required' => 'タイトルを入力してください',
-            'title.max' => 'タイトルは255文字以内で入力してください',
-            'author.required' => '著者を入力してください',
-            'author.max' => '著者は255文字以内で入力してください',
-            'isbn.required' => 'ISBNを入力してください',
-            'isbn.digits' => 'ISBNは13桁の数字でなければなりません',
-            'isbn.unique' => 'このISBNは既に使用されています',
-            'published_date.required' => '出版日を入力してください',
-            'published_date.date' => '出版日は有効な日付でなければなりません',
-            'genres.required' => '少なくとも1つのジャンルを選択してください',
-            'genres.*.exists' => '選択されたジャンルのいずれかが無効です',
+            'title.required' => 'タイトルは必須です。',
+            'title.string' => 'タイトルは文字列で入力してください。',
+            'title.max' => 'タイトルは255文字以内で入力してください。',
+            'author.required' => '著者は必須です。',
+            'author.string' => '著者は文字列で入力してください。',
+            'author.max' => '著者は255文字以内で入力してください。',
+            'isbn.required' => 'ISBNは必須です。',
+            'isbn.digits' => 'ISBNは13桁で入力してください。',
+            'isbn.unique' => 'そのISBNは既に使用されています。',
+            'published_date.required' => '出版日は必須です。',
+            'published_date.date' => '出版日は有効な日付形式で入力してください。',
+            'description.string' => '説明は文字列で入力してください。',
+            'image_url.url' => '画像URLは有効なURL形式で入力してください。',
+            'image_url.max' => '画像URLは255文字以内で入力してください。',
+            'genres.required' => 'ジャンルは1つ以上選択してください。',
+            'genres.array' => 'ジャンルは配列で入力してください。',
+            'genres.*.exists' => '選択されたジャンルは存在しません。',
         ];
     }
 }
