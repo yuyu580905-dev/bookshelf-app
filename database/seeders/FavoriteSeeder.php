@@ -17,7 +17,7 @@ class FavoriteSeeder extends Seeder
         $books = Book::pluck('id', 'isbn');
 
         $users['yamada@example.com']
-            ->favorites()
+            ->favoriteBooks()
             ->syncWithoutDetaching([
                 $books['9784101010014'], // 吾輩は猫である
                 $books['9784873115658'], // リーダブルコード
@@ -26,7 +26,7 @@ class FavoriteSeeder extends Seeder
             ]);
 
         $users['suzuki@example.com']
-            ->favorites()
+            ->favoriteBooks()
             ->syncWithoutDetaching([
                 $books['9784422100524'], // 人を動かす
                 $books['9784101010021'], // 坊っちゃん
@@ -36,7 +36,7 @@ class FavoriteSeeder extends Seeder
             ]);
 
         $users['tanaka@example.com']
-            ->favorites()
+            ->favoriteBooks()
             ->syncWithoutDetaching([
                 $books['9784101010014'], // 吾輩は猫である
                 $books['9784048930598'], // Clean Code
@@ -44,7 +44,7 @@ class FavoriteSeeder extends Seeder
             ]);
 
         $users['sato@example.com']
-            ->favorites()
+            ->favoriteBooks()
             ->syncWithoutDetaching([
                 $books['9784422100524'], // 人を動かす
                 $books['9784863940246'], // 7つの習慣
@@ -53,7 +53,7 @@ class FavoriteSeeder extends Seeder
             ]);
 
         $users['takahashi@example.com']
-            ->favorites()
+            ->favoriteBooks()
             ->syncWithoutDetaching([
                 $books['9784101010021'], // 坊っちゃん
                 $books['9784309226712'], // サピエンス全史
