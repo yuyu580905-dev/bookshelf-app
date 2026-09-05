@@ -48,4 +48,13 @@ class BookController extends Controller
 
         return redirect()->route('books.show', $book);
     }
+
+    public function edit(Book $book)
+    {
+        $this->authorize('update', $book);
+
+        $genres = Genre::all();
+
+        return view('books.edit', compact('book', 'genres'));
+    }
 }
