@@ -78,4 +78,13 @@ class BookController extends Controller
 
         return redirect()->route('books.show', $book);
     }
+
+    public function destroy(Book $book)
+    {
+        $this->authorize('delete', $book);
+
+        $book->delete();
+
+        return redirect()->route('books.index');
+    }
 }
