@@ -13,6 +13,11 @@ class GenreController extends Controller
         return view('genres.index', compact('genres'));
     }
 
+    public function create()
+    {
+        return view('genres.create');
+    }
+
     public function show(Genre $genre)
     {
         $books = $genre->books()
