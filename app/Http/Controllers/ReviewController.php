@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreReviewRequest;
-use App\Http\Requests\UpdateReviewRequest;
+use App\Http\Requests\ReviewStoreRequest;
+use App\Http\Requests\ReviewUpdateRequest;
 use App\Models\Book;
 use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
-    public function store(StoreReviewRequest $request, Book $book)
+    public function store(ReviewStoreRequest $request, Book $book)
     {
         $book->reviews()->create([
             ...$request->validated(),
@@ -27,7 +27,7 @@ class ReviewController extends Controller
         return view('reviews.edit', compact('review'));
     }
 
-    public function update(UpdateReviewRequest $request, Review $review)
+    public function update(ReviewUpdateRequest $request, Review $review)
     {
         $this->authorize('update', $review);
 
