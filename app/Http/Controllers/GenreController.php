@@ -51,4 +51,17 @@ class GenreController extends Controller
 
         return redirect()->route('genres.index')->with('success', 'ジャンルを更新しました。');
     }
+
+    public function destroy(Genre $genre)
+    {
+        if ($genre->books()->exists()) {
+            return redirect()
+                ->route('genres.index')
+                ->with('error', '書籍が紐付いているため、このジャンルは削除できません。');
+        }
+
+        $genre->delete();
+
+        return redirect()->route('genres.index')->with('success', 'ジャンルを削除しました。');
+    }
 }
