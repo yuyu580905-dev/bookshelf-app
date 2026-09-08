@@ -31,7 +31,7 @@ class GenreStoreTest extends TestCase
     }
 
     /**
-     * ジャンル名をが未入力の場合はバリデーションエラーになる
+     * ジャンル名が未入力の場合はバリデーションエラーになる
      */
     public function test_genre_name_is_required(): void
     {

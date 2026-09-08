@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\GenreStoreRequest;
+use App\Http\Requests\GenreUpdateRequest;
 use App\Models\Genre;
 
 class GenreController extends Controller
@@ -25,7 +26,7 @@ class GenreController extends Controller
             'name' => $request->name,
         ]);
 
-        return redirect()->route('genres.index')->with('success', 'ジャンルを追加しました。');
+        return redirect()->route('genres.index')->with('success', 'ジャンルを登録しました。');
     }
 
     public function show(Genre $genre)
@@ -40,5 +41,14 @@ class GenreController extends Controller
     public function edit(Genre $genre)
     {
         return view('genres.edit', compact('genre'));
+    }
+
+    public function update(GenreUpdateRequest $request, Genre $genre)
+    {
+        $genre->update([
+            'name' => $request->name,
+        ]);
+
+        return redirect()->route('genres.index')->with('success', 'ジャンルを更新しました。');
     }
 }
