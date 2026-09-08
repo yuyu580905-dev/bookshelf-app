@@ -36,4 +36,9 @@ class GenreController extends Controller
 
         return view('genres.show', compact('genre', 'books'));
     }
+
+    public function edit(Genre $genre)
+    {
+        return view('genres.edit', compact('genre'));
+    }
 }
