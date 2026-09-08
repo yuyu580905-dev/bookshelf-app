@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GenreStoreRequest;
 use App\Models\Genre;
 
 class GenreController extends Controller
@@ -16,6 +17,15 @@ class GenreController extends Controller
     public function create()
     {
         return view('genres.create');
+    }
+
+    public function store(GenreStoreRequest $request)
+    {
+        Genre::create([
+            'name' => $request->name,
+        ]);
+
+        return redirect()->route('genres.index')->with('success', 'ジャンルを追加しました。');
     }
 
     public function show(Genre $genre)
