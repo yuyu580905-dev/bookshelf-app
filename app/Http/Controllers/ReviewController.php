@@ -17,7 +17,7 @@ class ReviewController extends Controller
             'user_id' => Auth::id(),
         ]);
 
-        return redirect()->route('books.show', $book);
+        return redirect()->route('books.show', $book)->with('success', 'レビューを投稿しました。');
     }
 
     public function edit(Review $review)
@@ -33,7 +33,7 @@ class ReviewController extends Controller
 
         $review->update($request->validated());
 
-        return redirect()->route('books.show', $review->book);
+        return redirect()->route('books.show', $review->book)->with('success', 'レビューを更新しました。');
     }
 
     public function destroy(Review $review)
@@ -44,6 +44,6 @@ class ReviewController extends Controller
 
         $review->delete();
 
-        return redirect()->route('books.show', $book);
+        return redirect()->route('books.show', $book)->with('success', 'レビューを削除しました。');
     }
 }

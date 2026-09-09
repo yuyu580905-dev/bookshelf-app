@@ -47,7 +47,7 @@ class BookController extends Controller
 
         $book->genres()->attach($validated['genres']);
 
-        return redirect()->route('books.show', $book);
+        return redirect()->route('books.show', $book)->with('success', '書籍を登録しました。');
     }
 
     public function edit(Book $book)
@@ -76,7 +76,7 @@ class BookController extends Controller
 
         $book->genres()->sync($validated['genres']);
 
-        return redirect()->route('books.show', $book);
+        return redirect()->route('books.show', $book)->with('success', '書籍を更新しました。');
     }
 
     public function destroy(Book $book)
@@ -85,6 +85,6 @@ class BookController extends Controller
 
         $book->delete();
 
-        return redirect()->route('books.index');
+        return redirect()->route('books.index')->with('success', '書籍を削除しました。');
     }
 }

@@ -17,6 +17,6 @@ class ReviewLikeController extends Controller
             $user->likedReviews()->attach($review->id);
         }
 
-        return redirect()->route('books.show', $review->book);
+        return redirect()->route('books.show', $review->book)->with('success', 'レビューのいいねを更新しました。');
     }
 }

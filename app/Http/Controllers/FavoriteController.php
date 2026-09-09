@@ -18,6 +18,6 @@ class FavoriteController extends Controller
     {
         Auth::user()->favoriteBooks()->toggle($book->id);
 
-        return redirect()->route('books.show', $book);
+        return redirect()->route('books.show', $book)->with('success', 'お気に入りを更新しました。');
     }
 }
