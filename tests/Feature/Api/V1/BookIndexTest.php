@@ -198,4 +198,118 @@ class BookIndexTest extends TestCase
                 'title' => $unmatchedBook->title,
             ]);
     }
+
+    /**
+     * キーワードは文字列でなければならない
+     */
+    public function test_keyword_must_be_a_string(): void
+    {
+        $response = $this->getJson('/api/v1/books?keyword[]=Laravel');
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['keyword']);
+    }
+
+    /**
+     * キーワードは255文字以内でなければならない
+     */
+    public function test_keyword_must_not_exceed_255_characters(): void
+    {
+        $keyword = str_repeat('a', 256);
+
+        $response = $this->getJson('/api/v1/books?keyword='.$keyword);
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['keyword']);
+    }
+
+    /**
+     * ジャンルIDは整数でなければならない
+     */
+    public function test_genre_id_must_be_an_integer(): void
+    {
+        $response = $this->getJson('/api/v1/books?genre_id=abc');
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['genre_id']);
+    }
+
+    /**
+     * ジャンルIDは存在するジャンルでなければならない
+     */
+    public function test_genre_id_must_exist(): void
+    {
+        $response = $this->getJson('/api/v1/books?genre_id=999999');
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['genre_id']);
+    }
+
+    /**
+     * ページ番号は整数でなければならない
+     */
+    public function test_page_must_be_an_integer(): void
+    {
+        $response = $this->getJson('/api/v1/books?page=abc');
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['page']);
+    }
+
+    /**
+     * ページ番号は1以上でなければならない
+     */
+    public function test_page_must_be_at_least_one(): void
+    {
+        $response = $this->getJson('/api/v1/books?page=0');
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['page']);
+    }
+
+    /**
+     * 1ページあたりの件数は整数でなければならない
+     */
+    public function test_per_page_must_be_an_integer(): void
+    {
+        $response = $this->getJson('/api/v1/books?per_page=abc');
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['per_page']);
+    }
+
+    /**
+     * 1ページあたりの件数は1以上でなければならない
+     */
+    public function test_per_page_must_be_at_least_one(): void
+    {
+        $response = $this->getJson('/api/v1/books?per_page=0');
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['per_page']);
+    }
+
+    /**
+     * 1ページあたりの件数は100以下でなければならない
+     */
+    public function test_per_page_must_not_exceed_100(): void
+    {
+        $response = $this->getJson('/api/v1/books?per_page=101');
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['per_page']);
+    }
+
+    /**
+     * 1ページあたりの件数を指定できる
+     */
+    public function test_books_index_api_can_set_per_page(): void
+    {
+        Book::factory()->count(3)->create();
+
+        $response = $this->getJson('/api/v1/books?per_page=2');
+
+        $response->assertStatus(200)
+            ->assertJsonCount(2, 'data');
+    }
 }
