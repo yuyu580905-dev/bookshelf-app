@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\BookIndexRequest;
+use App\Http\Requests\Api\V1\BookStoreRequest;
 use App\Http\Resources\BookResource;
 use App\Models\Book;
+use Illuminate\Http\JsonResponse;
 
 class BookController extends Controller
 {
@@ -46,5 +48,27 @@ class BookController extends Controller
         $book->loadCount('reviews');
 
         return new BookResource($book);
+    }
+
+    /**
+     * 書籍を登録する
+     */
+    public function store(BookStoreRequest $request): JsonResponse
+    {
+        $book = Book::create([
+            'user_id' => $request->user_id,
+            'title' => $request->title,
+            'author' => $request->author,
+            'isbn' => $request->isbn,
+            'published_date' => $request->published_date,
+            'description' => $request->description,
+            'image_url' => $request->image_url,
+        ]);
+
+        $book->genres()->sync($request->genres);
+
+        return response()->json([
+            'data' => $book->load('genres'),
+        ], 201);
     }
 }
