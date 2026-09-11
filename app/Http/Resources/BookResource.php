@@ -30,6 +30,14 @@ class BookResource extends JsonResource
             }),
             'average_rating' => (float) $this->reviews_avg_rating,
             'reviews_count' => $this->reviews_count,
+            'reviews' => $this->reviews->map(function ($review) {
+                return [
+                    'user_name' => $review->user->name,
+                    'rating' => $review->rating,
+                    'comment' => $review->comment,
+                    'created_at' => $review->created_at,
+                ];
+            }),
         ];
     }
 }

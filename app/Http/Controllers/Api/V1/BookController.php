@@ -34,4 +34,17 @@ class BookController extends Controller
 
         return BookResource::collection($books);
     }
+
+    public function show(Book $book)
+    {
+        $book->load([
+            'genres',
+            'reviews.user',
+        ]);
+
+        $book->loadAvg('reviews', 'rating');
+        $book->loadCount('reviews');
+
+        return new BookResource($book);
+    }
 }
