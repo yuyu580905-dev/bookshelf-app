@@ -5,12 +5,16 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\BookIndexRequest;
 use App\Http\Requests\Api\V1\BookStoreRequest;
+use App\Http\Requests\Api\V1\BookUpdateRequest;
 use App\Http\Resources\BookResource;
 use App\Models\Book;
 use Illuminate\Http\JsonResponse;
 
 class BookController extends Controller
 {
+    /**
+     * 書籍一覧を取得する
+     */
     public function index(BookIndexRequest $request)
     {
         $perPage = $request->input('per_page', 10);
@@ -37,6 +41,9 @@ class BookController extends Controller
         return BookResource::collection($books);
     }
 
+    /**
+     * 書籍詳細を取得する
+     */
     public function show(Book $book)
     {
         $book->load([
@@ -70,5 +77,27 @@ class BookController extends Controller
         return response()->json([
             'data' => $book->load('genres'),
         ], 201);
+    }
+
+    /**
+     * 書籍を更新する
+     */
+    public function update(BookUpdateRequest $request, Book $book): JsonResponse
+    {
+        $book->update([
+            'user_id' => $request->user_id,
+            'title' => $request->title,
+            'author' => $request->author,
+            'isbn' => $request->isbn,
+            'published_date' => $request->published_date,
+            'description' => $request->description,
+            'image_url' => $request->image_url,
+        ]);
+
+        $book->genres()->sync($request->genres);
+
+        return response()->json([
+            'data' => $book->load('genres'),
+        ], 200);
     }
 }
