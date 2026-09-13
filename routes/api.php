@@ -13,4 +13,5 @@ Route::prefix('v1')->group(function () {
     Route::get('/books/{book}', [BookController::class, 'show']);
     Route::post('/books', [BookController::class, 'store']);
     Route::put('/books/{book}', [BookController::class, 'update']);
+    Route::delete('/books/{book}', [BookController::class, 'destroy']);
 });

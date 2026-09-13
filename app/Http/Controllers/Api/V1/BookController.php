@@ -100,4 +100,14 @@ class BookController extends Controller
             'data' => $book->load('genres'),
         ], 200);
     }
+
+    /**
+     * 書籍を削除する
+     */
+    public function destroy(Book $book)
+    {
+        $book->delete();
+
+        return response()->noContent();
+    }
 }
