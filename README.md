@@ -1,66 +1,189 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# BookShelf（新模擬案件\_書籍レビューアプリ）
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## アプリ概要
 
-## About Laravel
+書籍の登録・閲覧・お気に入り登録、レビューの投稿ができる書籍レビューアプリです。<br>
+ジャンルによる分類やレビューへのいいね機能、平均評価に基づくランキング機能も備えています。
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 主な機能
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- 会員登録
+- ログイン
+- メール認証
+- 出勤・退勤・休憩
+- 勤怠一覧
+- 勤怠修正申請
+- 管理者承認
+- スタッフ一覧
+- 勤怠レポート
+- 公開API
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 使用技術（実行環境）
 
-## Learning Laravel
+- PHP 8.5.8
+- Laravel 10.50.3
+- MySQL 8.0
+- Nginx
+- Docker
+- Laravel Sail
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## ER図
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+![ER図](src/er-diagram.png)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 環境構築
 
-## Laravel Sponsors
+1. `git clone git@github.com:yuyu580905-dev/kintai_app.git`
+2. DockerDesktopアプリを立ち上げる
+3. `cd kintai_app/`
+4. `make init`
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## メール認証について
 
-### Premium Partners
+本アプリではメール認証にMailtrapを使用しています
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### Mailtrap設定
 
-## Contributing
+1. [Mailtrap](https://mailtrap.io/) に登録
+2. Sandbox を作成
+3. Sandbox の Integration から「laravel 7.x and 8.x」を選択し、<br>
+   .envファイルのMAIL_MAILERからMAIL_ENCRYPTIONまでの項目をコピー＆ペーストしてください。
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+設定後、以下を実行してください
 
-## Code of Conduct
+```bash
+php artisan config:clear
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## テストアカウント
 
-## Security Vulnerabilities
+シーディング実行後、以下のユーザーでログインできます。
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| 種別          | メールアドレス    | パスワード |
+| ------------- | ----------------- | ---------- |
+| 一般ユーザー1 | user1@example.com | password   |
+| 一般ユーザー2 | user2@example.com | password   |
+| 管理者        | user3@example.com | password   |
 
-## License
+※管理者ユーザーは `admin_status = true` が設定されています。<br>
+※すべてメール認証済みです。
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## API
+
+本アプリでは公開APIも実装しています。
+
+### エンドポイント
+
+| Method | URL                             | 概要         |
+| ------ | ------------------------------- | ------------ |
+| GET    | /api/v1/attendance-records      | 勤怠一覧取得 |
+| GET    | /api/v1/attendance-records/{id} | 勤怠詳細取得 |
+| POST   | /api/v1/attendance-records      | 勤怠登録     |
+| PUT    | /api/v1/attendance-records/{id} | 勤怠更新     |
+| DELETE | /api/v1/attendance-records/{id} | 勤怠削除     |
+
+※ {id} は勤怠レコードのIDを表します。
+
+### 認証
+
+- GETは認証不要
+- POST / PUT / DELETE は Laravel Sanctum による認証が必要
+
+## テスト
+
+PHPUnitを使用して以下の機能テストを実装しています
+
+#### 一般ユーザー
+
+- 会員登録認証機能
+- メール認証機能
+- ログイン認証機能
+- 日時取得機能
+- ステータス確認機能
+- 出勤機能
+- 休憩機能
+- 退勤機能
+- 勤怠一覧情報取得機能
+- 勤怠詳細情報取得機能
+- 勤怠詳細情報修正機能
+- マイ勤怠レポート機能
+
+#### 管理者
+
+- ログイン認証機能
+- 勤怠一覧情報取得機能
+- 勤怠詳細情報取得・修正機能
+- ユーザー情報取得機能
+- 勤怠情報承認機能
+
+#### 公開API
+
+- 公開API 読み取り系
+- 公開API 書き込み系
+- Sanctum 認証
+
+## PHPUnit テスト実行
+
+本アプリではテスト実行時に `demo_test` データベースを使用します
+
+### 1. テスト用データベース作成
+
+MySQLコンテナへ接続し、テスト用データベースを作成
+
+```sql
+CREATE DATABASE demo_test;
+```
+
+### 2. .env.testing を作成
+
+PHPコンテナへ接続し、`.env` をコピーして `.env.testing` を作成
+
+```bash
+cp .env .env.testing
+```
+
+.env.testingを以下の内容へ変更
+
+```env
+APP_NAME=Laravel
+APP_ENV=test
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://localhost
+
+DB_CONNECTION=mysql_test
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=demo_test
+DB_USERNAME=root
+DB_PASSWORD=root
+```
+
+### 3. テスト用アプリケーションキー生成
+
+```bash
+php artisan key:generate --env=testing
+```
+
+### 4. キャッシュの削除
+
+```bash
+php artisan config:clear
+```
+
+### 5. マイグレーションを実行してテスト用のテーブルを作成
+
+```bash
+php artisan migrate --env=testing
+```
+
+### 6. PHPUnit実行
+
+```bash
+php artisan test
+```
+
+## URL
+
+- 開発環境：http://localhost/
+- phpMyAdmin：http://localhost:8080/
