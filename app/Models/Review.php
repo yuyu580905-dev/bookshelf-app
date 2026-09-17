@@ -18,16 +18,31 @@ class Review extends Model
         'comment',
     ];
 
+    /**
+     * レビューの所有者であるユーザーを取得する。
+     *
+     * @return BelongsTo<User> レビューの所有者のリレーション
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * レビューに関連する本を取得する。
+     *
+     * @return BelongsTo<Book> レビューに関連する本のリレーション
+     */
     public function book(): BelongsTo
     {
         return $this->belongsTo(Book::class);
     }
 
+    /**
+     * レビューにいいねをしたユーザーを取得する。
+     *
+     * @return BelongsToMany<User> レビューにいいねをしたユーザーのリレーション
+     */
     public function likedByUsers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'review_likes');

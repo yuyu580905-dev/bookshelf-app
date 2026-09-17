@@ -45,23 +45,53 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    /**
+     * ユーザーが作成した本を取得する。
+     *
+     * @return HasMany<Book> ユーザーが作成した本のリレーション
+     */
     public function books(): HasMany
     {
         return $this->hasMany(Book::class);
     }
 
+    /**
+     * ユーザーが作成したレビューを取得する。
+     *
+     * @return HasMany<Review> ユーザーが作成したレビューのリレーション
+     */
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
     }
 
+    /**
+     * ユーザーがお気に入りに登録した本を取得する。
+     *
+     * @return BelongsToMany<Book> ユーザーがお気に入りに登録した本のリレーション
+     */
     public function favoriteBooks(): BelongsToMany
     {
         return $this->belongsToMany(Book::class, 'favorites');
     }
 
+    /**
+     * ユーザーが「いいね」したレビューを取得する。
+     *
+     * @return BelongsToMany<Review> ユーザーが「いいね」したレビューのリレーション
+     */
     public function likedReviews(): BelongsToMany
     {
         return $this->belongsToMany(Review::class, 'review_likes');
+    }
+
+    /**
+     * ユーザーが作成した読書計画を取得する。
+     *
+     * @return HasMany<ReadingPlan>
+     */
+    public function readingPlans(): HasMany
+    {
+        return $this->hasMany(ReadingPlan::class);
     }
 }
