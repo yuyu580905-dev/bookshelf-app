@@ -31,6 +31,6 @@ class NotificationController extends Controller
             ->findOrFail($notification)
             ->markAsRead();
 
-        return redirect()->route('notifications.index');
+        return redirect()->route('notifications.index')->with('success', '通知を既読にしました。');
     }
 }

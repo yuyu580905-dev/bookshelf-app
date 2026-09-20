@@ -31,7 +31,7 @@ class BookEditTest extends TestCase
         $response->assertSee($book->title);
         $response->assertSee($book->author);
         $response->assertSee($book->isbn);
-        $response->assertSee($book->published_date);
+        $response->assertSee($book->published_date->format('Y-m-d'));
         $response->assertSee($book->description);
         $response->assertSee($book->image_url);
 
