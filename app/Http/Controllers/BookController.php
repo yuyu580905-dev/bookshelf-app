@@ -23,11 +23,21 @@ class BookController extends Controller
             });
         }
 
+        if (request()->filled('genre')) {
+            $genre = request('genre');
+
+            $query->whereHas('genres', function ($query) use ($genre) {
+                $query->where('genres.id', $genre);
+            });
+        }
+
         $books = $query
             ->latest()
             ->paginate(10);
 
-        return view('books.index', compact('books'));
+        $genres = Genre::all();
+
+        return view('books.index', compact('books', 'genres'));
     }
 
     public function show(Book $book)
