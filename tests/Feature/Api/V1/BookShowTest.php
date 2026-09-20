@@ -13,7 +13,7 @@ class BookShowTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 書籍詳細APIが認証なしでアクセスできる
+     * 書籍詳細APIが認証なしでアクセスできる。
      */
     public function test_books_show_api_can_be_accessed_without_authentication(): void
     {
@@ -25,7 +25,7 @@ class BookShowTest extends TestCase
     }
 
     /**
-     * 書籍詳細APIが指定した書籍情報を返す
+     * 書籍詳細APIが指定した書籍情報を返す。
      */
     public function test_books_show_api_returns_book_information(): void
     {
@@ -45,7 +45,7 @@ class BookShowTest extends TestCase
     }
 
     /**
-     * 書籍詳細APIがジャンル情報を返す
+     * 書籍詳細APIがジャンル情報を返す。
      */
     public function test_books_show_api_returns_genre_information(): void
     {
@@ -64,7 +64,7 @@ class BookShowTest extends TestCase
     }
 
     /**
-     * 書籍詳細APIがレビュー情報を返す
+     * 書籍詳細APIがレビュー情報を返す。
      */
     public function test_books_show_api_returns_review_information(): void
     {
@@ -92,7 +92,7 @@ class BookShowTest extends TestCase
     }
 
     /**
-     * 書籍詳細APIが平均評価とレビュー件数を返す
+     * 書籍詳細APIが平均評価とレビュー件数を返す。
      */
     public function test_books_show_api_returns_average_rating_and_reviews_count(): void
     {
@@ -118,7 +118,7 @@ class BookShowTest extends TestCase
     }
 
     /**
-     * 存在しない書籍IDを指定した場合は404を返す
+     * 存在しない書籍IDを指定した場合は404を返す。
      */
     public function test_books_show_api_returns_404_for_nonexistent_book(): void
     {

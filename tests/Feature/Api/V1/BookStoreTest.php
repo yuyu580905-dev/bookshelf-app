@@ -13,7 +13,7 @@ class BookStoreTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 正常な入力で書籍が登録され、ジャンルが紐付けられる
+     * 正常な入力で書籍が登録され、ジャンルが紐付けられる。
      */
     public function test_book_can_be_created(): void
     {
@@ -52,7 +52,7 @@ class BookStoreTest extends TestCase
     }
 
     /**
-     * 必須項目が未入力の場合はバリデーションエラーになる
+     * 必須項目が未入力の場合はバリデーションエラーになる。
      */
     public function test_required_fields_are_validated(): void
     {
@@ -81,7 +81,7 @@ class BookStoreTest extends TestCase
     }
 
     /**
-     * ISBNは13桁で一意でなければならない
+     * ISBNは13桁で一意でなければならない。
      */
     public function test_isbn_must_be_valid(): void
     {
@@ -109,7 +109,7 @@ class BookStoreTest extends TestCase
     }
 
     /**
-     * 出版日が有効な日付でない場合はバリデーションエラーになる
+     * 出版日が有効な日付でない場合はバリデーションエラーになる。
      */
     public function test_published_date_must_be_valid(): void
     {
@@ -125,7 +125,7 @@ class BookStoreTest extends TestCase
     }
 
     /**
-     * 画像URLが有効なURLでない場合はバリデーションエラーになる
+     * 画像URLが有効なURLでない場合はバリデーションエラーになる。
      */
     public function test_image_url_must_be_valid(): void
     {
@@ -141,7 +141,7 @@ class BookStoreTest extends TestCase
     }
 
     /**
-     * ジャンルは配列で1つ以上指定し、存在するジャンルでなければならない
+     * ジャンルは配列で1つ以上指定し、存在するジャンルでなければならない。
      */
     public function test_genres_must_be_valid(): void
     {
@@ -180,7 +180,7 @@ class BookStoreTest extends TestCase
     }
 
     /**
-     * 登録者IDは整数で、存在するユーザーでなければならない
+     * 登録者IDは整数で、存在するユーザーでなければならない。
      */
     public function test_user_id_must_be_valid(): void
     {
@@ -206,7 +206,7 @@ class BookStoreTest extends TestCase
     }
 
     /**
-     * 正常な書籍登録データを作成する
+     * 正常な書籍登録データを作成する。
      */
     private function validBookData(): array
     {

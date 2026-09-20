@@ -12,7 +12,7 @@ class BookIndexTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * ゲストユーザーが書籍一覧ページにアクセスできる
+     * ゲストユーザーが書籍一覧ページにアクセスできる。
      */
     public function test_guest_can_view_book_index()
     {
@@ -27,7 +27,7 @@ class BookIndexTest extends TestCase
     }
 
     /**
-     * 書籍一覧が10件ずつページネーションされる
+     * 書籍一覧が10件ずつページネーションされる。
      */
     public function test_books_are_paginated_by_10()
     {
@@ -47,7 +47,7 @@ class BookIndexTest extends TestCase
     }
 
     /**
-     * 書籍に紐づくジャンルが表示される
+     * 書籍に紐づくジャンルが表示される。
      */
     public function test_book_genres_are_displayed()
     {

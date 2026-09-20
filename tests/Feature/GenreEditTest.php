@@ -12,7 +12,7 @@ class GenreEditTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 認証済みユーザーはジャンル編集ページを表示できる
+     * 認証済みユーザーはジャンル編集ページを表示できる。
      */
     public function test_authenticated_user_can_view_genre_edit_page(): void
     {
@@ -32,7 +32,7 @@ class GenreEditTest extends TestCase
     }
 
     /**
-     * 未認証ユーザーはログイン画面へリダイレクトされる
+     * 未認証ユーザーはログイン画面へリダイレクトされる。
      */
     public function test_guest_is_redirected_to_login(): void
     {

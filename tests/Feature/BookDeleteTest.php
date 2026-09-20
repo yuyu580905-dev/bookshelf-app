@@ -14,7 +14,7 @@ class BookDeleteTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 書籍作成者本人が書籍情報を削除できる（レビュー、いいね、ジャンルの関連データも削除されることを確認）
+     * 書籍作成者本人が書籍情報を削除できる。（レビュー、いいね、ジャンルの関連データも削除されることを確認）
      */
     public function test_owner_can_delete_book_and_related_data(): void
     {
@@ -64,7 +64,7 @@ class BookDeleteTest extends TestCase
     }
 
     /**
-     * 他ユーザーが他人の書籍情報を削除しようとすると403になる
+     * 他ユーザーが他人の書籍情報を削除しようとすると403になる。
      */
     public function test_other_user_cannot_delete_book(): void
     {
@@ -86,7 +86,7 @@ class BookDeleteTest extends TestCase
     }
 
     /**
-     * ゲストユーザーが書籍情報を削除しようとするとログインページにリダイレクトされる
+     * ゲストユーザーが書籍情報を削除しようとするとログインページにリダイレクトされる。
      */
     public function test_guest_is_redirected_to_login_when_deleting_book(): void
     {

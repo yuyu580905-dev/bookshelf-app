@@ -16,7 +16,7 @@ class ProcessReadingPlansTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * テスト終了後にテスト時刻をリセットする
+     * テスト終了後にテスト時刻をリセットする。
      */
     protected function tearDown(): void
     {
@@ -26,7 +26,7 @@ class ProcessReadingPlansTest extends TestCase
     }
 
     /**
-     * 期限を過ぎた読書計画を期限切れに変更する
+     * 期限を過ぎた読書計画を期限切れに変更する。
      */
     public function test_expired_reading_plan_is_marked_as_expired(): void
     {
@@ -47,7 +47,7 @@ class ProcessReadingPlansTest extends TestCase
     }
 
     /**
-     * 期日当日の読書計画は期限切れに変更しない
+     * 期日当日の読書計画は期限切れに変更しない。
      */
     public function test_reading_plan_on_target_date_is_not_marked_as_expired(): void
     {
@@ -68,7 +68,7 @@ class ProcessReadingPlansTest extends TestCase
     }
 
     /**
-     * 読了済みの読書計画は期限切れに変更しない
+     * 読了済みの読書計画は期限切れに変更しない。
      */
     public function test_completed_reading_plan_is_not_marked_as_expired(): void
     {
@@ -89,7 +89,7 @@ class ProcessReadingPlansTest extends TestCase
     }
 
     /**
-     * 期日の3日前にリマインダー通知を送信する
+     * 期日の3日前にリマインダー通知を送信する。
      */
     public function test_sends_three_days_before_reminder(): void
     {
@@ -110,12 +110,12 @@ class ProcessReadingPlansTest extends TestCase
         Notification::assertSentTo(
             $user,
             ReadingPlanReminderNotification::class,
-            fn (ReadingPlanReminderNotification $notification): bool => $notification->toArray($user)['timing'] === 'three_days_before'
+            fn(ReadingPlanReminderNotification $notification): bool => $notification->toArray($user)['timing'] === 'three_days_before'
         );
     }
 
     /**
-     * 期日にリマインダー通知を送信する
+     * 期日にリマインダー通知を送信する。
      */
     public function test_sends_on_due_date_reminder(): void
     {
@@ -136,12 +136,12 @@ class ProcessReadingPlansTest extends TestCase
         Notification::assertSentTo(
             $user,
             ReadingPlanReminderNotification::class,
-            fn (ReadingPlanReminderNotification $notification): bool => $notification->toArray($user)['timing'] === 'on_due_date'
+            fn(ReadingPlanReminderNotification $notification): bool => $notification->toArray($user)['timing'] === 'on_due_date'
         );
     }
 
     /**
-     * 期日の3日後にリマインダー通知を送信する
+     * 期日の3日後にリマインダー通知を送信する。
      */
     public function test_sends_three_days_after_reminder(): void
     {
@@ -162,12 +162,12 @@ class ProcessReadingPlansTest extends TestCase
         Notification::assertSentTo(
             $user,
             ReadingPlanReminderNotification::class,
-            fn (ReadingPlanReminderNotification $notification): bool => $notification->toArray($user)['timing'] === 'three_days_after'
+            fn(ReadingPlanReminderNotification $notification): bool => $notification->toArray($user)['timing'] === 'three_days_after'
         );
     }
 
     /**
-     * 同じ読書計画・同じ通知タイミングの重複通知を防止する
+     * 同じ読書計画・同じ通知タイミングの重複通知を防止する。
      */
     public function test_does_not_send_duplicate_reminder(): void
     {
@@ -197,7 +197,7 @@ class ProcessReadingPlansTest extends TestCase
     }
 
     /**
-     * 読了済みの読書計画にはリマインダー通知を送信しない
+     * 読了済みの読書計画にはリマインダー通知を送信しない。
      */
     public function test_does_not_send_reminder_for_completed_reading_plan(): void
     {

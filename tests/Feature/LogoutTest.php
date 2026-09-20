@@ -11,7 +11,7 @@ class LogoutTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * ログアウト後にログイン画面にリダイレクトされる
+     * ログアウト後にログイン画面にリダイレクトされる。
      */
     public function test_users_can_logout()
     {

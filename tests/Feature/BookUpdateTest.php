@@ -13,7 +13,7 @@ class BookUpdateTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 書籍作成者本人が書籍情報を更新できる（ジャンルの更新も含む）
+     * 書籍作成者本人が書籍情報を更新できる。（ジャンルの更新も含む）
      */
     public function test_owner_can_update_book(): void
     {
@@ -61,7 +61,7 @@ class BookUpdateTest extends TestCase
     }
 
     /**
-     * 書籍作成者本人がISBNを変更せずに更新できる
+     * 書籍作成者本人がISBNを変更せずに更新できる。
      */
     public function test_owner_can_keep_the_same_isbn(): void
     {
@@ -98,7 +98,7 @@ class BookUpdateTest extends TestCase
     }
 
     /**
-     * 書籍作成者本人がISBNを他の書籍と重複させて更新しようとするとエラーになる
+     * 書籍作成者本人がISBNを他の書籍と重複させて更新しようとするとエラーになる。
      */
     public function test_update_is_rejected_when_isbn_is_already_used_by_another_book(): void
     {
@@ -138,7 +138,7 @@ class BookUpdateTest extends TestCase
     }
 
     /**
-     * 他ユーザーが他人の書籍情報を更新しようとすると403になる
+     * 他ユーザーが他人の書籍情報を更新しようとすると403になる。
      */
     public function test_other_user_cannot_update_book(): void
     {
@@ -173,7 +173,7 @@ class BookUpdateTest extends TestCase
     }
 
     /**
-     * ゲストユーザーが書籍情報を更新しようとするとログインページにリダイレクトされる
+     * ゲストユーザーが書籍情報を更新しようとするとログインページにリダイレクトされる。
      */
     public function test_guest_is_redirected_to_login_when_updating_book(): void
     {
@@ -201,7 +201,7 @@ class BookUpdateTest extends TestCase
     }
 
     /**
-     * 書籍作成者本人が必須項目を欠いた状態で更新しようとするとエラーになる
+     * 書籍作成者本人が必須項目を欠いた状態で更新しようとするとエラーになる。
      */
     public function test_update_is_rejected_when_required_fields_are_missing(): void
     {

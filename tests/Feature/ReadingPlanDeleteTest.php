@@ -12,7 +12,7 @@ class ReadingPlanDeleteTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * ゲストは読書計画を削除できず、ログイン画面へリダイレクトされる
+     * ゲストは読書計画を削除できず、ログイン画面へリダイレクトされる。
      */
     public function test_guest_is_redirected_to_login(): void
     {
@@ -30,7 +30,7 @@ class ReadingPlanDeleteTest extends TestCase
     }
 
     /**
-     * 所有者は読書計画を削除できる
+     * 所有者は読書計画を削除できる。
      */
     public function test_owner_can_delete_reading_plan(): void
     {
@@ -53,7 +53,7 @@ class ReadingPlanDeleteTest extends TestCase
     }
 
     /**
-     * 他ユーザーの読書計画は削除できない
+     * 他ユーザーの読書計画は削除できない。
      */
     public function test_non_owner_cannot_delete_reading_plan(): void
     {

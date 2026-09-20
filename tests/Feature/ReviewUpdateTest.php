@@ -13,7 +13,7 @@ class ReviewUpdateTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * レビュー投稿者本人がレビューを更新できる
+     * レビュー投稿者本人がレビューを更新できる。
      */
     public function test_review_owner_can_update_review(): void
     {
@@ -45,7 +45,7 @@ class ReviewUpdateTest extends TestCase
     }
 
     /**
-     * 他ユーザーが他人のレビューを更新しようとした場合、403になる
+     * 他ユーザーが他人のレビューを更新しようとした場合、403になる。
      */
     public function test_non_owner_cannot_update_review(): void
     {
@@ -76,7 +76,7 @@ class ReviewUpdateTest extends TestCase
     }
 
     /**
-     * ゲストユーザーがレビューを更新しようとした場合、ログインページにリダイレクトされる
+     * ゲストユーザーがレビューを更新しようとした場合、ログインページにリダイレクトされる。
      */
     public function test_guest_is_redirected_to_login_when_updating_review(): void
     {
@@ -103,7 +103,7 @@ class ReviewUpdateTest extends TestCase
     }
 
     /**
-     * バリデーションエラーの場合、レビューが更新されない
+     * バリデーションエラーの場合、レビューが更新されない。
      */
     public function test_review_is_not_updated_with_invalid_data(): void
     {

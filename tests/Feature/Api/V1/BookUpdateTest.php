@@ -13,7 +13,7 @@ class BookUpdateTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 書籍を正常に更新できる
+     * 書籍を正常に更新できる。
      */
     public function test_book_can_be_updated(): void
     {
@@ -66,7 +66,7 @@ class BookUpdateTest extends TestCase
     }
 
     /**
-     * 存在しない書籍IDの場合は404を返す
+     * 存在しない書籍IDの場合は404を返す。
      */
     public function test_returns_404_for_nonexistent_book(): void
     {
@@ -90,7 +90,7 @@ class BookUpdateTest extends TestCase
     }
 
     /**
-     * 自身のISBNは重複エラーにならない
+     * 自身のISBNは重複エラーにならない。
      */
     public function test_current_isbn_can_be_kept(): void
     {
@@ -121,7 +121,7 @@ class BookUpdateTest extends TestCase
     }
 
     /**
-     * 他の書籍で使用されているISBNは422を返す
+     * 他の書籍で使用されているISBNは422を返す。
      */
     public function test_duplicate_isbn_returns_422(): void
     {
@@ -160,7 +160,7 @@ class BookUpdateTest extends TestCase
     }
 
     /**
-     * 必須項目が未入力の場合は422を返す
+     * 必須項目が未入力の場合は422を返す。
      */
     public function test_required_fields_return_422(): void
     {
@@ -188,7 +188,7 @@ class BookUpdateTest extends TestCase
     }
 
     /**
-     * 各フィールドの不正値の場合は422を返す
+     * 各フィールドの不正値の場合は422を返す。
      */
     public function test_invalid_field_values_return_422(): void
     {
@@ -218,7 +218,7 @@ class BookUpdateTest extends TestCase
     }
 
     /**
-     * genresのバリデーションエラーの場合は422を返す
+     * genresのバリデーションエラーの場合は422を返す。
      */
     public function test_invalid_genres_return_422(): void
     {
@@ -242,7 +242,7 @@ class BookUpdateTest extends TestCase
     }
 
     /**
-     * user_idのバリデーションエラーの場合は422を返す
+     * user_idのバリデーションエラーの場合は422を返す。
      */
     public function test_invalid_user_id_return_422(): void
     {

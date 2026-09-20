@@ -12,7 +12,7 @@ class BookCreateTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 認証済みユーザーは書籍登録画面を表示できる
+     * 認証済みユーザーは書籍登録画面を表示できる。
      */
     public function test_authenticated_user_can_view_book_create_page(): void
     {
@@ -26,7 +26,7 @@ class BookCreateTest extends TestCase
     }
 
     /**
-     * 書籍登録画面には必要な入力項目と全ジャンルが表示される
+     * 書籍登録画面には必要な入力項目と全ジャンルが表示される。
      */
     public function test_book_create_page_displays_required_fields_and_all_genres(): void
     {
@@ -52,7 +52,7 @@ class BookCreateTest extends TestCase
     }
 
     /**
-     * 未認証ユーザーはログイン画面へリダイレクトされる
+     * 未認証ユーザーはログイン画面へリダイレクトされる。
      */
     public function test_guest_is_redirected_to_login(): void
     {

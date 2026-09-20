@@ -12,7 +12,7 @@ class FavoriteToggleTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 認証済みユーザーがお気に入りを追加・解除・再追加できる
+     * 認証済みユーザーがお気に入りを追加・解除・再追加できる。
      */
     public function test_authenticated_user_can_toggle_book_favorite(): void
     {
@@ -57,7 +57,7 @@ class FavoriteToggleTest extends TestCase
     }
 
     /**
-     * ゲストユーザーがお気に入りボタンを押すとログインページにリダイレクトされる
+     * ゲストユーザーがお気に入りボタンを押すとログインページにリダイレクトされる。
      */
     public function test_guest_is_redirected_to_login_when_toggling_favorite(): void
     {

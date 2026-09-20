@@ -11,7 +11,7 @@ class LoginTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * メールアドレスが未入力の場合バリデーションメッセージが表示される
+     * メールアドレスが未入力の場合バリデーションメッセージが表示される。
      */
     public function test_email_is_required(): void
     {
@@ -26,7 +26,7 @@ class LoginTest extends TestCase
     }
 
     /**
-     * パスワードが未入力の場合バリデーションメッセージが表示される
+     * パスワードが未入力の場合バリデーションメッセージが表示される。
      */
     public function test_password_is_required(): void
     {
@@ -45,7 +45,7 @@ class LoginTest extends TestCase
     }
 
     /**
-     * 登録内容と一致しない場合バリデーションメッセージが表示される
+     * 登録内容と一致しない場合バリデーションメッセージが表示される。
      */
     public function test_login_fails_with_invalid_credentials(): void
     {
@@ -65,7 +65,7 @@ class LoginTest extends TestCase
     }
 
     /**
-     * 正しいユーザー情報を入力した場合、ユーザーが正常にログインできる
+     * 正しいユーザー情報を入力した場合、ユーザーが正常にログインできる。
      */
     public function test_user_can_login(): void
     {

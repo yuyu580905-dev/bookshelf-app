@@ -13,7 +13,7 @@ class ReadingPlanStoreTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * ゲストは読書計画を登録できず、ログイン画面へリダイレクトされる
+     * ゲストは読書計画を登録できず、ログイン画面へリダイレクトされる。
      */
     public function test_guest_is_redirected_to_login(): void
     {
@@ -30,7 +30,7 @@ class ReadingPlanStoreTest extends TestCase
     }
 
     /**
-     * 認証ユーザーは読書計画を正常に登録できる
+     * 認証ユーザーは読書計画を正常に登録できる。
      */
     public function test_authenticated_user_can_store_reading_plan(): void
     {
@@ -55,7 +55,7 @@ class ReadingPlanStoreTest extends TestCase
     }
 
     /**
-     * book_idが未入力の場合はバリデーションエラーになる
+     * book_idが未入力の場合はバリデーションエラーになる。
      */
     public function test_book_id_is_required(): void
     {
@@ -72,7 +72,7 @@ class ReadingPlanStoreTest extends TestCase
     }
 
     /**
-     * 存在しないbook_idの場合はバリデーションエラーになる
+     * 存在しないbook_idの場合はバリデーションエラーになる。
      */
     public function test_book_id_must_exist(): void
     {
@@ -90,7 +90,7 @@ class ReadingPlanStoreTest extends TestCase
     }
 
     /**
-     * target_dateが未入力の場合はバリデーションエラーになる
+     * target_dateが未入力の場合はバリデーションエラーになる。
      */
     public function test_target_date_is_required(): void
     {
@@ -108,7 +108,7 @@ class ReadingPlanStoreTest extends TestCase
     }
 
     /**
-     * target_dateが日付形式でない場合はバリデーションエラーになる
+     * target_dateが日付形式でない場合はバリデーションエラーになる。
      */
     public function test_target_date_must_be_a_valid_date(): void
     {

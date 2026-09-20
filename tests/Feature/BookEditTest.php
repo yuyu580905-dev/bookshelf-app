@@ -13,7 +13,7 @@ class BookEditTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 書籍作成者本人が編集画面にアクセスできる
+     * 書籍作成者本人が編集画面にアクセスできる。
      */
     public function test_owner_can_view_book_edit_page(): void
     {
@@ -41,7 +41,7 @@ class BookEditTest extends TestCase
     }
 
     /**
-     * 他ユーザーが他人の書籍編集画面にアクセスすると403になる
+     * 他ユーザーが他人の書籍編集画面にアクセスすると403になる。
      */
     public function test_other_user_cannot_view_book_edit_page(): void
     {
@@ -57,7 +57,7 @@ class BookEditTest extends TestCase
     }
 
     /**
-     * ゲストユーザーが書籍編集画面にアクセスするとログインページにリダイレクトされる
+     * ゲストユーザーが書籍編集画面にアクセスするとログインページにリダイレクトされる。
      */
     public function test_guest_is_redirected_to_login_when_viewing_book_edit_page(): void
     {

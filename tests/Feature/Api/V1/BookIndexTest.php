@@ -13,7 +13,7 @@ class BookIndexTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 書籍一覧APIが認証なしでアクセスできる
+     * 書籍一覧APIが認証なしでアクセスできる。
      */
     public function test_books_index_api_can_be_accessed_without_authentication(): void
     {
@@ -23,7 +23,7 @@ class BookIndexTest extends TestCase
     }
 
     /**
-     * 書籍一覧APIが書籍情報を返す
+     * 書籍一覧APIが書籍情報を返す。
      */
     public function test_books_index_api_returns_book_information(): void
     {
@@ -39,7 +39,7 @@ class BookIndexTest extends TestCase
     }
 
     /**
-     * 書籍一覧APIがジャンル情報を返す
+     * 書籍一覧APIがジャンル情報を返す。
      */
     public function test_books_index_api_returns_genre_information(): void
     {
@@ -56,7 +56,7 @@ class BookIndexTest extends TestCase
     }
 
     /**
-     * 書籍一覧APIが平均評価を返す
+     * 書籍一覧APIが平均評価を返す。
      */
     public function test_books_index_api_returns_average_rating(): void
     {
@@ -81,7 +81,7 @@ class BookIndexTest extends TestCase
     }
 
     /**
-     * 書籍一覧APIがレビュー件数を返す
+     * 書籍一覧APIがレビュー件数を返す。
      */
     public function test_books_index_api_returns_reviews_count(): void
     {
@@ -112,7 +112,7 @@ class BookIndexTest extends TestCase
     }
 
     /**
-     * キーワードで書籍を検索できる（タイトル検索）
+     * 書籍をタイトルでキーワード検索できる。
      */
     public function test_books_index_api_can_search_books_by_keyword(): void
     {
@@ -140,7 +140,7 @@ class BookIndexTest extends TestCase
     }
 
     /**
-     * 著者名でもキーワード検索できる
+     * 書籍を著者名でキーワード検索できる。
      */
     public function test_books_index_api_can_search_books_by_author_keyword(): void
     {
@@ -168,7 +168,7 @@ class BookIndexTest extends TestCase
     }
 
     /**
-     * ジャンルIDで書籍を絞り込める
+     * ジャンルIDで書籍を絞り込める。
      */
     public function test_books_index_api_can_filter_books_by_genre_id(): void
     {
@@ -186,7 +186,7 @@ class BookIndexTest extends TestCase
         $matchedBook->genres()->attach($genre);
         $unmatchedBook->genres()->attach($otherGenre);
 
-        $response = $this->getJson('/api/v1/books?genre_id='.$genre->id);
+        $response = $this->getJson('/api/v1/books?genre_id=' . $genre->id);
 
         $response->assertStatus(200)
             ->assertJsonFragment([
@@ -200,7 +200,7 @@ class BookIndexTest extends TestCase
     }
 
     /**
-     * キーワードは文字列でなければならない
+     * キーワードは文字列でなければならない。
      */
     public function test_keyword_must_be_a_string(): void
     {
@@ -211,20 +211,20 @@ class BookIndexTest extends TestCase
     }
 
     /**
-     * キーワードは255文字以内でなければならない
+     * キーワードは255文字以内でなければならない。
      */
     public function test_keyword_must_not_exceed_255_characters(): void
     {
         $keyword = str_repeat('a', 256);
 
-        $response = $this->getJson('/api/v1/books?keyword='.$keyword);
+        $response = $this->getJson('/api/v1/books?keyword=' . $keyword);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['keyword']);
     }
 
     /**
-     * ジャンルIDは整数でなければならない
+     * ジャンルIDは整数でなければならない。
      */
     public function test_genre_id_must_be_an_integer(): void
     {
@@ -235,7 +235,7 @@ class BookIndexTest extends TestCase
     }
 
     /**
-     * ジャンルIDは存在するジャンルでなければならない
+     * ジャンルIDは存在するジャンルでなければならない。
      */
     public function test_genre_id_must_exist(): void
     {
@@ -246,7 +246,7 @@ class BookIndexTest extends TestCase
     }
 
     /**
-     * ページ番号は整数でなければならない
+     * ページ番号は整数でなければならない。
      */
     public function test_page_must_be_an_integer(): void
     {
@@ -257,7 +257,7 @@ class BookIndexTest extends TestCase
     }
 
     /**
-     * ページ番号は1以上でなければならない
+     * ページ番号は1以上でなければならない。
      */
     public function test_page_must_be_at_least_one(): void
     {
@@ -268,7 +268,7 @@ class BookIndexTest extends TestCase
     }
 
     /**
-     * 1ページあたりの件数は整数でなければならない
+     * 1ページあたりの件数は整数でなければならない。
      */
     public function test_per_page_must_be_an_integer(): void
     {
@@ -279,7 +279,7 @@ class BookIndexTest extends TestCase
     }
 
     /**
-     * 1ページあたりの件数は1以上でなければならない
+     * 1ページあたりの件数は1以上でなければならない。
      */
     public function test_per_page_must_be_at_least_one(): void
     {
@@ -290,7 +290,7 @@ class BookIndexTest extends TestCase
     }
 
     /**
-     * 1ページあたりの件数は100以下でなければならない
+     * 1ページあたりの件数は100以下でなければならない。
      */
     public function test_per_page_must_not_exceed_100(): void
     {
@@ -301,7 +301,7 @@ class BookIndexTest extends TestCase
     }
 
     /**
-     * 1ページあたりの件数を指定できる
+     * 1ページあたりの件数を指定できる。
      */
     public function test_books_index_api_can_set_per_page(): void
     {

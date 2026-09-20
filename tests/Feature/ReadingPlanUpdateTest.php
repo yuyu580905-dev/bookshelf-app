@@ -12,7 +12,7 @@ class ReadingPlanUpdateTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * ゲストは読書計画を更新できず、ログイン画面へリダイレクトされる
+     * ゲストは読書計画を更新できず、ログイン画面へリダイレクトされる。
      */
     public function test_guest_is_redirected_to_login(): void
     {
@@ -36,7 +36,7 @@ class ReadingPlanUpdateTest extends TestCase
     }
 
     /**
-     * 所有者は読書計画の期日を更新できる
+     * 所有者は読書計画の期日を更新できる。
      */
     public function test_owner_can_update_reading_plan(): void
     {
@@ -65,7 +65,7 @@ class ReadingPlanUpdateTest extends TestCase
     }
 
     /**
-     * 他ユーザーの読書計画は更新できない
+     * 他ユーザーの読書計画は更新できない。
      */
     public function test_non_owner_cannot_update_reading_plan(): void
     {
@@ -94,7 +94,7 @@ class ReadingPlanUpdateTest extends TestCase
     }
 
     /**
-     * target_dateが未入力の場合はバリデーションエラーになる
+     * target_dateが未入力の場合はバリデーションエラーになる。
      */
     public function test_target_date_is_required(): void
     {
@@ -120,7 +120,7 @@ class ReadingPlanUpdateTest extends TestCase
     }
 
     /**
-     * target_dateが日付形式でない場合はバリデーションエラーになる
+     * target_dateが日付形式でない場合はバリデーションエラーになる。
      */
     public function test_target_date_must_be_a_valid_date(): void
     {

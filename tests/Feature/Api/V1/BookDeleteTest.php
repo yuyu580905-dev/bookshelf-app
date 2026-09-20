@@ -14,7 +14,7 @@ class BookDeleteTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 書籍を削除でき、204 No Contentが返る
+     * 書籍を削除でき、204 No Contentが返る。
      */
     public function test_book_can_be_deleted(): void
     {
@@ -30,7 +30,7 @@ class BookDeleteTest extends TestCase
     }
 
     /**
-     * 存在しない書籍を削除しようとすると404が返る
+     * 存在しない書籍を削除しようとすると404が返る。
      */
     public function test_delete_returns_404_for_non_existent_book(): void
     {
@@ -40,7 +40,7 @@ class BookDeleteTest extends TestCase
     }
 
     /**
-     * 書籍削除時に関連データも削除される
+     * 書籍削除時に関連データも削除される。
      */
     public function test_related_data_is_deleted_when_book_is_deleted(): void
     {
@@ -85,7 +85,7 @@ class BookDeleteTest extends TestCase
     }
 
     /**
-     * 書籍削除時にジャンル本体は削除されない
+     * 書籍削除時にジャンル本体は削除されない。
      */
     public function test_genre_is_not_deleted_when_book_is_deleted(): void
     {

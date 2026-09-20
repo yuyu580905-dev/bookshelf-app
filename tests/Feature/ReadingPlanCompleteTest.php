@@ -13,7 +13,7 @@ class ReadingPlanCompleteTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * ゲストは読書計画を読了できず、ログイン画面へリダイレクトされる
+     * ゲストは読書計画を読了できず、ログイン画面へリダイレクトされる。
      */
     public function test_guest_is_redirected_to_login(): void
     {
@@ -33,7 +33,7 @@ class ReadingPlanCompleteTest extends TestCase
     }
 
     /**
-     * 所有者は読書計画を読了状態に変更できる
+     * 所有者は読書計画を読了状態に変更できる。
      */
     public function test_owner_can_complete_reading_plan(): void
     {
@@ -62,7 +62,7 @@ class ReadingPlanCompleteTest extends TestCase
     }
 
     /**
-     * 他ユーザーの読書計画は読了できない
+     * 他ユーザーの読書計画は読了できない。
      */
     public function test_non_owner_cannot_complete_reading_plan(): void
     {

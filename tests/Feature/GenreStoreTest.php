@@ -12,7 +12,7 @@ class GenreStoreTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 認証済みユーザーはジャンルを登録できる
+     * 認証済みユーザーはジャンルを登録できる。
      */
     public function test_authenticated_user_can_register_genre(): void
     {
@@ -31,7 +31,7 @@ class GenreStoreTest extends TestCase
     }
 
     /**
-     * ジャンル名が未入力の場合はバリデーションエラーになる
+     * ジャンル名が未入力の場合はバリデーションエラーになる。
      */
     public function test_genre_name_is_required(): void
     {
@@ -47,7 +47,7 @@ class GenreStoreTest extends TestCase
     }
 
     /**
-     * ジャンル名が重複している場合はバリデーションエラーになる
+     * ジャンル名が重複している場合はバリデーションエラーになる。
      */
     public function test_genre_name_must_be_unique(): void
     {
@@ -67,7 +67,7 @@ class GenreStoreTest extends TestCase
     }
 
     /**
-     * 未認証ユーザーはログイン画面へリダイレクトされる
+     * 未認証ユーザーはログイン画面へリダイレクトされる。
      */
     public function test_guest_is_redirected_to_login(): void
     {

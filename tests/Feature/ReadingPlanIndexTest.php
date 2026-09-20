@@ -14,7 +14,7 @@ class ReadingPlanIndexTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * ゲストはログイン画面へリダイレクトされる
+     * ゲストはログイン画面へリダイレクトされる。
      */
     public function test_guest_is_redirected_to_login(): void
     {
@@ -24,7 +24,7 @@ class ReadingPlanIndexTest extends TestCase
     }
 
     /**
-     * ログインユーザー自身の読書計画だけが表示される
+     * ログインユーザー自身の読書計画だけが表示される。
      */
     public function test_authenticated_user_can_see_own_reading_plans_only(): void
     {
@@ -58,7 +58,7 @@ class ReadingPlanIndexTest extends TestCase
     }
 
     /**
-     * statusを指定すると該当する読書計画だけが表示される
+     * statusを指定すると該当する読書計画だけが表示される。
      */
     public function test_reading_plans_can_be_filtered_by_status(): void
     {

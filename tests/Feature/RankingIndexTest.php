@@ -13,7 +13,7 @@ class RankingIndexTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * ゲストユーザーがランキングページにアクセスできる
+     * ゲストユーザーがランキングページにアクセスできる。
      */
     public function test_guest_can_access_ranking_page(): void
     {
@@ -23,7 +23,7 @@ class RankingIndexTest extends TestCase
     }
 
     /**
-     * 書籍が平均評価の降順で表示される
+     * 書籍が平均評価の降順で表示される。
      */
     public function test_books_are_displayed_in_descending_order_of_average_rating(): void
     {
@@ -60,7 +60,7 @@ class RankingIndexTest extends TestCase
     }
 
     /**
-     * レビューがない書籍は表示されない
+     * レビューがない書籍は表示されない。
      */
     public function test_books_without_reviews_are_not_displayed(): void
     {
@@ -85,7 +85,7 @@ class RankingIndexTest extends TestCase
     }
 
     /**
-     * ランキングページには上位10件の書籍のみが表示される
+     * ランキングページには上位10件の書籍のみが表示される。
      */
     public function test_only_top_10_books_are_displayed(): void
     {

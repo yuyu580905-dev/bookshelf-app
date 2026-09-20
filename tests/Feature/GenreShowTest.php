@@ -13,7 +13,7 @@ class GenreShowTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 認証済みユーザーはジャンル詳細画面を表示できる
+     * 認証済みユーザーはジャンル詳細画面を表示できる。
      */
     public function test_authenticated_user_can_view_genre_show_page(): void
     {
@@ -29,7 +29,7 @@ class GenreShowTest extends TestCase
     }
 
     /**
-     * 認証済みユーザーは対象ジャンルの書籍を確認できる
+     * 認証済みユーザーは対象ジャンルの書籍を確認できる。
      */
     public function test_books_belonging_to_the_genre_are_displayed(): void
     {
@@ -51,7 +51,7 @@ class GenreShowTest extends TestCase
     }
 
     /**
-     * 認証済みユーザーは対象ジャンル以外の書籍を確認できない
+     * 認証済みユーザーは対象ジャンル以外の書籍を確認できない。
      */
     public function test_books_from_other_genres_are_not_displayed(): void
     {
@@ -84,7 +84,7 @@ class GenreShowTest extends TestCase
     }
 
     /**
-     * 未認証ユーザーはログイン画面へリダイレクトされる
+     * 未認証ユーザーはログイン画面へリダイレクトされる。
      */
     public function test_guest_is_redirected_to_login(): void
     {

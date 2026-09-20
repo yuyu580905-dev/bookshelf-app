@@ -12,7 +12,7 @@ class ReadingPlanEditTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * ゲストは読書計画編集画面にアクセスできず、ログイン画面へリダイレクトされる
+     * ゲストは読書計画編集画面にアクセスできず、ログイン画面へリダイレクトされる。
      */
     public function test_guest_is_redirected_to_login(): void
     {
@@ -26,7 +26,7 @@ class ReadingPlanEditTest extends TestCase
     }
 
     /**
-     * 所有者は読書計画編集画面を表示できる
+     * 所有者は読書計画編集画面を表示できる。
      */
     public function test_owner_can_see_edit_form(): void
     {
@@ -49,7 +49,7 @@ class ReadingPlanEditTest extends TestCase
     }
 
     /**
-     * 他ユーザーの読書計画は編集画面を表示できない
+     * 他ユーザーの読書計画は編集画面を表示できない。
      */
     public function test_non_owner_cannot_see_edit_form(): void
     {

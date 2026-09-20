@@ -14,7 +14,7 @@ class NotificationTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 認証ユーザーの通知一覧を表示できる
+     * 認証ユーザーの通知一覧を表示できる。
      */
     public function test_authenticated_user_can_view_notifications(): void
     {
@@ -43,7 +43,7 @@ class NotificationTest extends TestCase
     }
 
     /**
-     * ゲストは通知一覧にアクセスできず、ログイン画面へリダイレクトされる
+     * ゲストは通知一覧にアクセスできず、ログイン画面へリダイレクトされる。
      */
     public function test_guest_is_redirected_to_login(): void
     {
@@ -53,7 +53,7 @@ class NotificationTest extends TestCase
     }
 
     /**
-     * 自分の未読通知を既読にできる
+     * 自分の未読通知を既読にできる。
      */
     public function test_authenticated_user_can_mark_own_notification_as_read(): void
     {
@@ -86,7 +86,7 @@ class NotificationTest extends TestCase
     }
 
     /**
-     * 他ユーザーの通知は既読にできない
+     * 他ユーザーの通知は既読にできない。
      */
     public function test_user_cannot_mark_another_users_notification_as_read(): void
     {

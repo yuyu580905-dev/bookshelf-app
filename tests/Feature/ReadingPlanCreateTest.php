@@ -12,7 +12,7 @@ class ReadingPlanCreateTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * ゲストは読書計画作成画面にアクセスできず、ログイン画面へリダイレクトされる
+     * ゲストは読書計画作成画面にアクセスできず、ログイン画面へリダイレクトされる。
      */
     public function test_guest_is_redirected_to_login(): void
     {
@@ -22,7 +22,7 @@ class ReadingPlanCreateTest extends TestCase
     }
 
     /**
-     * 認証ユーザーは読書計画作成画面を表示できる
+     * 認証ユーザーは読書計画作成画面を表示できる。
      */
     public function test_authenticated_user_can_see_create_form(): void
     {
@@ -37,7 +37,7 @@ class ReadingPlanCreateTest extends TestCase
             ->assertViewHas('books', function ($viewBooks) use ($books) {
                 return $viewBooks->count() === 3
                     && $viewBooks->pluck('id')->sort()->values()
-                        ->all() === $books->pluck('id')->sort()->values()->all();
+                    ->all() === $books->pluck('id')->sort()->values()->all();
             });
     }
 }

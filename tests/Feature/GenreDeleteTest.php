@@ -13,7 +13,7 @@ class GenreDeleteTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 認証済みユーザーはジャンルを削除できる（関連する書籍がない場合）
+     * 認証済みユーザーはジャンルを削除できる。（関連する書籍がない場合）
      */
     public function test_authenticated_user_can_delete_genre_without_books(): void
     {
@@ -34,7 +34,7 @@ class GenreDeleteTest extends TestCase
     }
 
     /**
-     * 認証済みユーザーは関連する書籍があるジャンルを削除できない
+     * 認証済みユーザーは関連する書籍があるジャンルを削除できない。
      */
     public function test_genre_with_books_cannot_be_deleted(): void
     {
@@ -60,7 +60,7 @@ class GenreDeleteTest extends TestCase
     }
 
     /**
-     * 未認証ユーザーはログイン画面へリダイレクトされる
+     * 未認証ユーザーはログイン画面へリダイレクトされる。
      */
     public function test_guest_is_redirected_to_login(): void
     {

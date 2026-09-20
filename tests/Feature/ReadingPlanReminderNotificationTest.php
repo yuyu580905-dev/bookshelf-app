@@ -13,7 +13,7 @@ class ReadingPlanReminderNotificationTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * Database通知として設定されている
+     * Database通知として設定されている。
      */
     public function test_notification_uses_database_channel(): void
     {
@@ -26,7 +26,7 @@ class ReadingPlanReminderNotificationTest extends TestCase
     }
 
     /**
-     * 期限3日前の通知メッセージが正しく生成される
+     * 期限3日前の通知メッセージが正しく生成される。
      */
     public function test_notification_generates_three_days_before_message(): void
     {
@@ -49,7 +49,7 @@ class ReadingPlanReminderNotificationTest extends TestCase
     }
 
     /**
-     * 期限当日の通知メッセージが正しく生成される
+     * 期限当日の通知メッセージが正しく生成される。
      */
     public function test_notification_generates_due_date_message(): void
     {
@@ -67,7 +67,7 @@ class ReadingPlanReminderNotificationTest extends TestCase
     }
 
     /**
-     * 期限3日超過の通知メッセージが正しく生成される
+     * 期限3日超過の通知メッセージが正しく生成される。
      */
     public function test_notification_generates_overdue_message(): void
     {

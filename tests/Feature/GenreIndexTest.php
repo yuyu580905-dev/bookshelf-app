@@ -13,7 +13,7 @@ class GenreIndexTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 認証済みユーザーはジャンル一覧画面を表示できる
+     * 認証済みユーザーはジャンル一覧画面を表示できる。
      */
     public function test_authenticated_user_can_view_genre_index(): void
     {
@@ -29,7 +29,7 @@ class GenreIndexTest extends TestCase
     }
 
     /**
-     * 認証済みユーザーはジャンルごとの書籍数を確認できる
+     * 認証済みユーザーはジャンルごとの書籍数を確認できる。
      */
     public function test_book_count_is_displayed_for_each_genre(): void
     {
@@ -64,7 +64,7 @@ class GenreIndexTest extends TestCase
     }
 
     /**
-     * 未認証ユーザーはログイン画面へリダイレクトされる
+     * 未認証ユーザーはログイン画面へリダイレクトされる。
      */
     public function test_guest_is_redirected_to_login(): void
     {

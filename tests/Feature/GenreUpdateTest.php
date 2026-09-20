@@ -12,7 +12,7 @@ class GenreUpdateTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 認証済みユーザーはジャンルを更新できる
+     * 認証済みユーザーはジャンルを更新できる。
      */
     public function test_authenticated_user_can_update_genre(): void
     {
@@ -35,7 +35,7 @@ class GenreUpdateTest extends TestCase
     }
 
     /**
-     * ジャンル名が未入力の場合はバリデーションエラーになる
+     * ジャンル名が未入力の場合はバリデーションエラーになる。
      */
     public function test_genre_name_is_required(): void
     {
@@ -55,7 +55,7 @@ class GenreUpdateTest extends TestCase
     }
 
     /**
-     * ジャンル名が文字列でない場合はバリデーションエラーになる
+     * ジャンル名が文字列でない場合はバリデーションエラーになる。
      */
     public function test_genre_name_must_be_string(): void
     {
@@ -75,7 +75,7 @@ class GenreUpdateTest extends TestCase
     }
 
     /**
-     * ジャンル名が255文字を超える場合はバリデーションエラーになる
+     * ジャンル名が255文字を超える場合はバリデーションエラーになる。
      */
     public function test_genre_name_must_not_exceed_255_characters(): void
     {
@@ -95,7 +95,7 @@ class GenreUpdateTest extends TestCase
     }
 
     /**
-     * ジャンル名が重複している場合はバリデーションエラーになる
+     * ジャンル名が重複している場合はバリデーションエラーになる。
      */
     public function test_genre_name_must_be_unique(): void
     {
@@ -119,7 +119,7 @@ class GenreUpdateTest extends TestCase
     }
 
     /**
-     * ジャンル名が変更されない場合はバリデーションエラーにならない（自身のレコードを除外してユニークチェックする）
+     * ジャンル名が変更されない場合はバリデーションエラーにならない。（自身のレコードを除外してユニークチェックする）
      */
     public function test_genre_name_can_remain_the_same(): void
     {
@@ -142,7 +142,7 @@ class GenreUpdateTest extends TestCase
     }
 
     /**
-     * 未認証ユーザーはログイン画面へリダイレクトされる
+     * 未認証ユーザーはログイン画面へリダイレクトされる。
      */
     public function test_guest_is_redirected_to_login(): void
     {

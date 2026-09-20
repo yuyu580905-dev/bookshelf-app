@@ -11,7 +11,7 @@ class GenreCreateTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 認証済みユーザーはジャンル登録画面を表示できる
+     * 認証済みユーザーはジャンル登録画面を表示できる。
      */
     public function test_authenticated_user_can_view_genre_create_page(): void
     {
@@ -26,7 +26,7 @@ class GenreCreateTest extends TestCase
     }
 
     /**
-     * 未認証ユーザーはログイン画面へリダイレクトされる
+     * 未認証ユーザーはログイン画面へリダイレクトされる。
      */
     public function test_guest_is_redirected_to_login(): void
     {

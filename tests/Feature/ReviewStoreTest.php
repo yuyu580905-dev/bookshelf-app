@@ -12,7 +12,7 @@ class ReviewStoreTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 認証済みユーザーがレビューを投稿できる
+     * 認証済みユーザーがレビューを投稿できる。
      */
     public function test_authenticated_user_can_store_review(): void
     {
@@ -40,7 +40,7 @@ class ReviewStoreTest extends TestCase
     }
 
     /**
-     * レビューの評価が1未満の場合、バリデーションエラーとなる
+     * レビューの評価が1未満の場合、バリデーションエラーとなる。
      */
     public function test_review_rating_must_be_at_least_one(): void
     {
@@ -67,7 +67,7 @@ class ReviewStoreTest extends TestCase
     }
 
     /**
-     * レビューの評価が5を超える場合、バリデーションエラーとなる
+     * レビューの評価が5を超える場合、バリデーションエラーとなる。
      */
     public function test_review_rating_must_not_exceed_five(): void
     {
@@ -94,7 +94,7 @@ class ReviewStoreTest extends TestCase
     }
 
     /**
-     * ゲストユーザーがレビューを投稿しようとした場合、ログインページにリダイレクトされる
+     * ゲストユーザーがレビューを投稿しようとした場合、ログインページにリダイレクトされる。
      */
     public function test_guest_is_redirected_to_login_when_storing_review(): void
     {

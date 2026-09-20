@@ -12,7 +12,7 @@ class ReviewDeleteTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * レビュー投稿者本人がレビューを削除できる
+     * レビュー投稿者本人がレビューを削除できる。
      */
     public function test_review_owner_can_delete_their_review(): void
     {
@@ -33,7 +33,7 @@ class ReviewDeleteTest extends TestCase
     }
 
     /**
-     * レビュー削除時に関連するいいねも削除される
+     * レビュー削除時に関連するいいねも削除される。
      */
     public function test_deleting_review_also_deletes_related_likes(): void
     {
@@ -65,7 +65,7 @@ class ReviewDeleteTest extends TestCase
     }
 
     /**
-     * 他ユーザーが他人のレビューを削除しようとした場合、403になる
+     * 他ユーザーが他人のレビューを削除しようとした場合、403になる。
      */
     public function test_non_owner_cannot_delete_review(): void
     {
@@ -89,7 +89,7 @@ class ReviewDeleteTest extends TestCase
     }
 
     /**
-     * ゲストユーザーがレビューを削除しようとした場合、ログインページにリダイレクトされる
+     * ゲストユーザーがレビューを削除しようとした場合、ログインページにリダイレクトされる。
      */
     public function test_guest_is_redirected_to_login_when_deleting_review(): void
     {

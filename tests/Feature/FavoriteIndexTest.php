@@ -12,7 +12,7 @@ class FavoriteIndexTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 認証済みユーザーのお気に入り書籍が一覧に表示される
+     * 認証済みユーザーのお気に入り書籍が一覧に表示される。
      */
     public function test_authenticated_user_can_view_favorite_books(): void
     {
@@ -34,7 +34,7 @@ class FavoriteIndexTest extends TestCase
     }
 
     /**
-     * 他ユーザーのお気に入り書籍は一覧に表示されない
+     * 他ユーザーのお気に入り書籍は一覧に表示されない。
      */
     public function test_other_users_favorite_books_are_not_displayed(): void
     {
@@ -60,7 +60,7 @@ class FavoriteIndexTest extends TestCase
     }
 
     /**
-     * お気に入り書籍が10件/ページでページネーションされる
+     * お気に入り書籍が10件/ページでページネーションされる。
      */
     public function test_favorite_books_are_paginated_by_10(): void
     {
@@ -94,7 +94,7 @@ class FavoriteIndexTest extends TestCase
     }
 
     /**
-     * 未認証ユーザーがアクセスするとログイン画面へリダイレクトされる
+     * 未認証ユーザーがアクセスするとログイン画面へリダイレクトされる。
      */
     public function test_guest_is_redirected_to_login(): void
     {
@@ -104,7 +104,7 @@ class FavoriteIndexTest extends TestCase
     }
 
     /**
-     * お気に入り書籍のタイトルから書籍詳細画面へ遷移できる
+     * お気に入り書籍のタイトルから書籍詳細画面へ遷移できる。
      */
     public function test_favorite_book_title_links_to_book_detail(): void
     {
