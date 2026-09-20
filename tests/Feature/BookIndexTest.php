@@ -72,4 +72,46 @@ class BookIndexTest extends TestCase
         $response->assertSee('小説');
         $response->assertSee('ビジネス');
     }
+
+    /**
+     * キーワードでタイトルを部分一致検索できる。
+     */
+    public function test_books_can_be_searched_by_title_keyword()
+    {
+        Book::factory()->create([
+            'title' => '吾輩は猫である',
+        ]);
+
+        Book::factory()->create([
+            'title' => '走れメロス',
+        ]);
+
+        $response = $this->get('/?keyword=猫');
+
+        $response->assertStatus(200);
+        $response->assertSee('吾輩は猫である');
+        $response->assertDontSee('走れメロス');
+    }
+
+    /**
+     * キーワードで著者名を部分一致検索できる。
+     */
+    public function test_books_can_be_searched_by_author_keyword()
+    {
+        Book::factory()->create([
+            'title' => '吾輩は猫である',
+            'author' => '夏目漱石',
+        ]);
+
+        Book::factory()->create([
+            'title' => '走れメロス',
+            'author' => '太宰治',
+        ]);
+
+        $response = $this->get('/?keyword=夏目');
+
+        $response->assertStatus(200);
+        $response->assertSee('吾輩は猫である');
+        $response->assertDontSee('走れメロス');
+    }
 }

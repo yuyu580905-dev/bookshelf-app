@@ -37,7 +37,7 @@ class ReadingPlanCreateTest extends TestCase
             ->assertViewHas('books', function ($viewBooks) use ($books) {
                 return $viewBooks->count() === 3
                     && $viewBooks->pluck('id')->sort()->values()
-                    ->all() === $books->pluck('id')->sort()->values()->all();
+                        ->all() === $books->pluck('id')->sort()->values()->all();
             });
     }
 }

@@ -11,8 +11,19 @@ class BookController extends Controller
 {
     public function index()
     {
-        $books = Book::with('genres')
-            ->withAvg('reviews', 'rating')
+        $query = Book::with('genres')
+            ->withAvg('reviews', 'rating');
+
+        if (request()->filled('keyword')) {
+            $keyword = request('keyword');
+
+            $query->where(function ($query) use ($keyword) {
+                $query->where('title', 'like', "%{$keyword}%")
+                    ->orWhere('author', 'like', "%{$keyword}%");
+            });
+        }
+
+        $books = $query
             ->latest()
             ->paginate(10);
 

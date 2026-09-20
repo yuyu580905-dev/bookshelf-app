@@ -112,9 +112,9 @@ class BookIndexTest extends TestCase
     }
 
     /**
-     * 書籍をタイトルでキーワード検索できる。
+     * キーワードでタイトルを部分一致検索できる。
      */
-    public function test_books_index_api_can_search_books_by_keyword(): void
+    public function test_books_index_api_can_search_books_by_title_keyword(): void
     {
         $matchedBook = Book::factory()->create([
             'title' => 'Laravel入門',
@@ -140,7 +140,7 @@ class BookIndexTest extends TestCase
     }
 
     /**
-     * 書籍を著者名でキーワード検索できる。
+     * キーワードで著者名を部分一致検索できる。
      */
     public function test_books_index_api_can_search_books_by_author_keyword(): void
     {
@@ -186,7 +186,7 @@ class BookIndexTest extends TestCase
         $matchedBook->genres()->attach($genre);
         $unmatchedBook->genres()->attach($otherGenre);
 
-        $response = $this->getJson('/api/v1/books?genre_id=' . $genre->id);
+        $response = $this->getJson('/api/v1/books?genre_id='.$genre->id);
 
         $response->assertStatus(200)
             ->assertJsonFragment([
@@ -217,7 +217,7 @@ class BookIndexTest extends TestCase
     {
         $keyword = str_repeat('a', 256);
 
-        $response = $this->getJson('/api/v1/books?keyword=' . $keyword);
+        $response = $this->getJson('/api/v1/books?keyword='.$keyword);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['keyword']);
