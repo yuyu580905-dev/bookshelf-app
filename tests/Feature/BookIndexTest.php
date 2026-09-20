@@ -114,4 +114,37 @@ class BookIndexTest extends TestCase
         $response->assertSee('吾輩は猫である');
         $response->assertDontSee('走れメロス');
     }
+
+    /**
+     * ジャンルで書籍を絞り込める。
+     */
+    public function test_books_can_be_filtered_by_genre(): void
+    {
+        $novel = Genre::factory()->create([
+            'name' => '小説',
+        ]);
+
+        $business = Genre::factory()->create([
+            'name' => 'ビジネス',
+        ]);
+
+        $novelBook = Book::factory()->create([
+            'title' => '吾輩は猫である',
+        ]);
+
+        $businessBook = Book::factory()->create([
+            'title' => '7つの習慣',
+        ]);
+
+        $novelBook->genres()->attach($novel);
+        $businessBook->genres()->attach($business);
+
+        $response = $this->get('/?genre='.$novel->id);
+
+        $response->assertStatus(200);
+        $response->assertSee('吾輩は猫である');
+        $response->assertDontSee('7つの習慣');
+        $response->assertSee('小説');
+        $response->assertSee('ビジネス');
+    }
 }
