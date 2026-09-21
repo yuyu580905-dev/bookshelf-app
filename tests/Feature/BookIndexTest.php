@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Book;
 use App\Models\Genre;
+use App\Models\Review;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -146,5 +147,133 @@ class BookIndexTest extends TestCase
         $response->assertDontSee('7つの習慣');
         $response->assertSee('小説');
         $response->assertSee('ビジネス');
+    }
+
+    /**
+     * 登録日が新しい順で書籍を並び替えられる。
+     */
+    public function test_books_can_be_sorted_by_latest(): void
+    {
+        $oldBook = Book::factory()->create([
+            'title' => '古い本',
+            'created_at' => now()->subDays(2),
+        ]);
+
+        $newBook = Book::factory()->create([
+            'title' => '新しい本',
+            'created_at' => now(),
+        ]);
+
+        $response = $this->get('/?sort=latest');
+
+        $books = $response->viewData('books')->getCollection();
+
+        $this->assertSame($newBook->id, $books->first()->id);
+        $this->assertSame($oldBook->id, $books->last()->id);
+    }
+
+    /**
+     * 登録日が古い順で書籍を並び替えられる。
+     */
+    public function test_books_can_be_sorted_by_oldest(): void
+    {
+        $oldBook = Book::factory()->create([
+            'title' => '古い本',
+            'created_at' => now()->subDays(2),
+        ]);
+
+        $newBook = Book::factory()->create([
+            'title' => '新しい本',
+            'created_at' => now(),
+        ]);
+
+        $response = $this->get('/?sort=oldest');
+
+        $books = $response->viewData('books')->getCollection();
+
+        $this->assertSame($oldBook->id, $books->first()->id);
+        $this->assertSame($newBook->id, $books->last()->id);
+    }
+
+    /**
+     * タイトル昇順で書籍を並び替えられる。
+     */
+    public function test_books_can_be_sorted_by_title(): void
+    {
+        Book::factory()->create([
+            'title' => 'Cの本',
+        ]);
+
+        Book::factory()->create([
+            'title' => 'Aの本',
+        ]);
+
+        Book::factory()->create([
+            'title' => 'Bの本',
+        ]);
+
+        $response = $this->get('/?sort=title');
+
+        $books = $response->viewData('books')->getCollection();
+
+        $this->assertSame('Aの本', $books->first()->title);
+        $this->assertSame('Cの本', $books->last()->title);
+    }
+
+    /**
+     * 評価順ではレビューなしの書籍が最後に表示される。
+     */
+    public function test_books_can_be_sorted_by_rating(): void
+    {
+        $highRatedBook = Book::factory()->create([
+            'title' => '高評価本',
+        ]);
+
+        $lowRatedBook = Book::factory()->create([
+            'title' => '低評価本',
+        ]);
+
+        $unreviewedBook = Book::factory()->create([
+            'title' => 'レビューなし本',
+        ]);
+
+        Review::factory()->create([
+            'book_id' => $highRatedBook->id,
+            'rating' => 5,
+        ]);
+
+        Review::factory()->create([
+            'book_id' => $lowRatedBook->id,
+            'rating' => 3,
+        ]);
+
+        $response = $this->get('/?sort=rating');
+
+        $books = $response->viewData('books')->getCollection();
+
+        $this->assertSame('高評価本', $books->get(0)->title);
+        $this->assertSame('低評価本', $books->get(1)->title);
+        $this->assertSame('レビューなし本', $books->get(2)->title);
+    }
+
+    /**
+     * ソート指定がない場合は新しい順（登録日）になる。
+     */
+    public function test_books_are_sorted_by_latest_by_default(): void
+    {
+        $oldBook = Book::factory()->create([
+            'created_at' => now()->subDays(2),
+        ]);
+
+        $newBook = Book::factory()->create([
+            'created_at' => now(),
+        ]);
+
+        $response = $this->get('/');
+
+        $books = $response->viewData('books')->getCollection();
+
+        $this->assertSame($newBook->id, $books->first()->id);
+        $this->assertSame($oldBook->id, $books->last()->id);
     }
 }
