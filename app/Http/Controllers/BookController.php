@@ -31,9 +31,13 @@ class BookController extends Controller
             });
         }
 
-        $sort = request('sort', 'latest');
+        $sort = request('sort', 'newest');
 
         switch ($sort) {
+            case 'newest':
+                $query->latest();
+                break;
+
             case 'oldest':
                 $query->oldest();
                 break;
@@ -47,13 +51,14 @@ class BookController extends Controller
                     ->orderByDesc('reviews_avg_rating');
                 break;
 
-            case 'latest':
             default:
                 $query->latest();
                 break;
         }
 
-        $books = $query->paginate(10);
+        $books = $query
+            ->paginate(10)
+            ->withQueryString();
 
         $genres = Genre::all();
 

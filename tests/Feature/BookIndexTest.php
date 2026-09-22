@@ -140,7 +140,7 @@ class BookIndexTest extends TestCase
         $novelBook->genres()->attach($novel);
         $businessBook->genres()->attach($business);
 
-        $response = $this->get('/?genre=' . $novel->id);
+        $response = $this->get('/?genre='.$novel->id);
 
         $response->assertStatus(200);
         $response->assertSee('吾輩は猫である');
@@ -257,7 +257,7 @@ class BookIndexTest extends TestCase
     }
 
     /**
-     * ソート指定がない場合は新しい順（登録日）になる。
+     * ソート指定がない場合は登録日が新しい順になる。
      */
     public function test_books_are_sorted_by_latest_by_default(): void
     {
@@ -275,5 +275,44 @@ class BookIndexTest extends TestCase
 
         $this->assertSame($newBook->id, $books->first()->id);
         $this->assertSame($oldBook->id, $books->last()->id);
+    }
+
+    /**
+     * 検索条件を維持したままページネーションできる。
+     */
+    public function test_pagination_preserves_search_conditions(): void
+    {
+        $genre = Genre::factory()->create([
+            'name' => '小説',
+        ]);
+
+        $books = Book::factory()->count(11)->create([
+            'title' => 'test book',
+        ]);
+
+        $books->each(function (Book $book) use ($genre): void {
+            $book->genres()->attach($genre);
+        });
+
+        Book::factory()->create([
+            'title' => 'other book',
+        ]);
+
+        $response = $this->get(
+            '/?keyword=test&genre='.$genre->id.'&sort=rating'
+        );
+
+        $response->assertStatus(200);
+
+        $paginator = $response->viewData('books');
+        $pageTwoUrl = $paginator->url(2);
+
+        $this->assertStringContainsString('page=2', $pageTwoUrl);
+        $this->assertStringContainsString('keyword=test', $pageTwoUrl);
+        $this->assertStringContainsString(
+            'genre='.$genre->id,
+            $pageTwoUrl
+        );
+        $this->assertStringContainsString('sort=rating', $pageTwoUrl);
     }
 }
