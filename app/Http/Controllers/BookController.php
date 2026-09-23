@@ -6,6 +6,8 @@ use App\Http\Requests\BookStoreRequest;
 use App\Http\Requests\BookUpdateRequest;
 use App\Models\Book;
 use App\Models\Genre;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Http;
 
 class BookController extends Controller
 {
@@ -75,6 +77,75 @@ class BookController extends Controller
         $genres = Genre::all();
 
         return view('books.create', compact('genres'));
+    }
+
+    /**
+     * ISBNからGoogle Books APIで書籍情報を検索する。
+     */
+    public function searchByIsbn(string $isbn): JsonResponse
+    {
+        if (strlen($isbn) !== 13) {
+            return response()->json([
+                'error' => 'ISBNは13桁で入力してください。',
+            ], 422);
+        }
+
+        if (! ctype_digit($isbn)) {
+            return response()->json([
+                'error' => 'ISBNは数字13桁で入力してください。',
+            ], 422);
+        }
+
+        try {
+            $response = Http::timeout(10)
+                ->withHeaders([
+                    'X-Goog-Api-Key' => config('services.google_books.api_key'),
+                ])
+                ->get(
+                    'https://www.googleapis.com/books/v1/volumes',
+                    [
+                        'q' => "isbn:{$isbn}",
+                        'maxResults' => 10,
+                    ]
+                );
+        } catch (\Throwable $e) {
+            return response()->json([
+                'error' => 'Google Books APIとの通信に失敗しました。',
+            ], 502);
+        }
+
+        if ($response->failed()) {
+            return response()->json([
+                'error' => 'Google Books APIとの通信に失敗しました。',
+            ], 502);
+        }
+
+        $items = $response->json('items', []);
+
+        $bookData = collect($items)->first(function (array $item) use ($isbn): bool {
+            return collect($item['volumeInfo']['industryIdentifiers'] ?? [])
+                ->contains(function (array $identifier) use ($isbn): bool {
+                    return $identifier['type'] === 'ISBN_13'
+                        && $identifier['identifier'] === $isbn;
+                });
+        });
+
+        if ($bookData === null) {
+            return response()->json([
+                'error' => '該当する書籍が見つかりませんでした。',
+            ], 404);
+        }
+
+        $volumeInfo = $bookData['volumeInfo'] ?? [];
+
+        return response()->json([
+            'title' => $volumeInfo['title'] ?? '',
+            'author' => implode(', ', $volumeInfo['authors'] ?? []),
+            'isbn' => $isbn,
+            'description' => $volumeInfo['description'] ?? '',
+            'published_date' => $volumeInfo['publishedDate'] ?? '',
+            'image_url' => $volumeInfo['imageLinks']['thumbnail'] ?? '',
+        ]);
     }
 
     public function store(BookStoreRequest $request)
