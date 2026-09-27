@@ -9,6 +9,7 @@ use App\Http\Requests\Api\V1\BookUpdateRequest;
 use App\Http\Resources\BookResource;
 use App\Models\Book;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class BookController extends Controller
 {
@@ -63,7 +64,7 @@ class BookController extends Controller
     public function store(BookStoreRequest $request): JsonResponse
     {
         $book = Book::create([
-            'user_id' => $request->user_id,
+            'user_id' => $request->user()->id,
             'title' => $request->title,
             'author' => $request->author,
             'isbn' => $request->isbn,
@@ -84,8 +85,9 @@ class BookController extends Controller
      */
     public function update(BookUpdateRequest $request, Book $book): JsonResponse
     {
+        $this->authorize('update', $book);
+
         $book->update([
-            'user_id' => $request->user_id,
             'title' => $request->title,
             'author' => $request->author,
             'isbn' => $request->isbn,
@@ -104,8 +106,10 @@ class BookController extends Controller
     /**
      * 書籍を削除する
      */
-    public function destroy(Book $book)
+    public function destroy(Book $book): Response
     {
+        $this->authorize('delete', $book);
+
         $book->delete();
 
         return response()->noContent();

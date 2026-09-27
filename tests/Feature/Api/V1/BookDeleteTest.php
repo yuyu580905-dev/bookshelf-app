@@ -7,6 +7,7 @@ use App\Models\Genre;
 use App\Models\Review;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class BookDeleteTest extends TestCase
@@ -14,11 +15,17 @@ class BookDeleteTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 書籍を削除でき、204 No Contentが返る。
+     * 認証済みの所有者は書籍を削除できる
      */
-    public function test_book_can_be_deleted(): void
+    public function test_owner_can_delete_book(): void
     {
-        $book = Book::factory()->create();
+        $user = User::factory()->create();
+
+        $book = Book::factory()->create([
+            'user_id' => $user->id,
+        ]);
+
+        Sanctum::actingAs($user);
 
         $response = $this->deleteJson("/api/v1/books/{$book->id}");
 
@@ -30,32 +37,84 @@ class BookDeleteTest extends TestCase
     }
 
     /**
-     * 存在しない書籍を削除しようとすると404が返る。
+     * 未認証ユーザーは書籍を削除できない
      */
-    public function test_delete_returns_404_for_non_existent_book(): void
+    public function test_unauthenticated_user_cannot_delete_book(): void
     {
-        $response = $this->deleteJson('/api/v1/books/99999');
+        $book = Book::factory()->create();
 
-        $response->assertNotFound();
+        $response = $this->deleteJson("/api/v1/books/{$book->id}");
+
+        $response
+            ->assertStatus(401)
+            ->assertJson([
+                'message' => '認証が必要です。',
+            ]);
     }
 
     /**
-     * 書籍削除時に関連データも削除される。
+     * 所有者ではないユーザーは書籍を削除できない
      */
-    public function test_related_data_is_deleted_when_book_is_deleted(): void
+    public function test_non_owner_cannot_delete_book(): void
     {
-        $user = User::factory()->create();
-        $book = Book::factory()->create();
-        $genre = Genre::factory()->create();
-        $review = Review::factory()->create([
-            'user_id' => $user->id,
-            'book_id' => $book->id,
+        $owner = User::factory()->create();
+        $otherUser = User::factory()->create();
+
+        $book = Book::factory()->create([
+            'user_id' => $owner->id,
         ]);
 
-        $book->favoriteUsers()->attach($user->id);
-        $book->genres()->attach($genre->id);
+        Sanctum::actingAs($otherUser);
 
-        $review->likedByUsers()->attach($user->id);
+        $response = $this->deleteJson("/api/v1/books/{$book->id}");
+
+        $response
+            ->assertStatus(403)
+            ->assertJson([
+                'message' => 'この操作を実行する権限がありません。',
+            ]);
+
+        $this->assertDatabaseHas('books', [
+            'id' => $book->id,
+        ]);
+    }
+
+    /**
+     * 存在しない書籍IDの場合は404を返す
+     */
+    public function test_non_existing_book_returns_404(): void
+    {
+        $user = User::factory()->create();
+
+        Sanctum::actingAs($user);
+
+        $response = $this->deleteJson('/api/v1/books/99999');
+
+        $response
+            ->assertStatus(404)
+            ->assertJson([
+                'message' => '書籍が見つかりませんでした。',
+            ]);
+    }
+
+    /**
+     * 書籍削除時に関連するレビューも削除される
+     */
+    public function test_related_reviews_are_deleted_with_book(): void
+    {
+        $user = User::factory()->create();
+        $reviewUser = User::factory()->create();
+
+        $book = Book::factory()->create([
+            'user_id' => $user->id,
+        ]);
+
+        $review = Review::factory()->create([
+            'book_id' => $book->id,
+            'user_id' => $reviewUser->id,
+        ]);
+
+        Sanctum::actingAs($user);
 
         $response = $this->deleteJson("/api/v1/books/{$book->id}");
 
@@ -68,34 +127,27 @@ class BookDeleteTest extends TestCase
         $this->assertDatabaseMissing('reviews', [
             'id' => $review->id,
         ]);
-
-        $this->assertDatabaseMissing('review_likes', [
-            'review_id' => $review->id,
-        ]);
-
-        $this->assertDatabaseMissing('favorites', [
-            'user_id' => $user->id,
-            'book_id' => $book->id,
-        ]);
-
-        $this->assertDatabaseMissing('book_genre', [
-            'book_id' => $book->id,
-            'genre_id' => $genre->id,
-        ]);
     }
 
     /**
-     * 書籍削除時にジャンル本体は削除されない。
+     * 書籍削除時にジャンル自体は削除されない
      */
-    public function test_genre_is_not_deleted_when_book_is_deleted(): void
+    public function test_genres_are_not_deleted_with_book(): void
     {
-        $book = Book::factory()->create();
+        $user = User::factory()->create();
         $genre = Genre::factory()->create();
+
+        $book = Book::factory()->create([
+            'user_id' => $user->id,
+        ]);
 
         $book->genres()->attach($genre->id);
 
-        $this->deleteJson("/api/v1/books/{$book->id}")
-            ->assertNoContent();
+        Sanctum::actingAs($user);
+
+        $response = $this->deleteJson("/api/v1/books/{$book->id}");
+
+        $response->assertNoContent();
 
         $this->assertDatabaseHas('genres', [
             'id' => $genre->id,

@@ -111,7 +111,7 @@ class BookIsbnSearchTest extends TestCase
         $response
             ->assertStatus(404)
             ->assertJson([
-                'error' => '該当する書籍が見つかりませんでした。',
+                'error' => '書籍が見つかりませんでした。',
             ]);
     }
 
@@ -148,7 +148,7 @@ class BookIsbnSearchTest extends TestCase
         $response
             ->assertStatus(404)
             ->assertJson([
-                'error' => '該当する書籍が見つかりませんでした。',
+                'error' => '書籍が見つかりませんでした。',
             ]);
     }
 

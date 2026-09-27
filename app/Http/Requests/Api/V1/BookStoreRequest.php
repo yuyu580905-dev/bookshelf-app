@@ -2,13 +2,12 @@
 
 namespace App\Http\Requests\Api\V1;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class BookStoreRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * リクエストの認可を判定する
      */
     public function authorize(): bool
     {
@@ -16,9 +15,7 @@ class BookStoreRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array<mixed>|string>
+     * バリデーションルールを取得する
      */
     public function rules(): array
     {
@@ -31,10 +28,12 @@ class BookStoreRequest extends FormRequest
             'image_url' => ['nullable', 'url', 'max:255'],
             'genres' => ['required', 'array', 'min:1'],
             'genres.*' => ['exists:genres,id'],
-            'user_id' => ['required', 'integer', 'exists:users,id'],
         ];
     }
 
+    /**
+     * バリデーションエラーメッセージを取得する
+     */
     public function messages(): array
     {
         return [
@@ -53,11 +52,9 @@ class BookStoreRequest extends FormRequest
             'image_url.url' => '画像URLは有効なURL形式で入力してください。',
             'image_url.max' => '画像URLは255文字以内で入力してください。',
             'genres.required' => 'ジャンルは1つ以上選択してください。',
-            'genres.array' => 'ジャンルは配列で入力してください。',
+            'genres.array' => 'ジャンルは配列で指定してください。',
+            'genres.min' => 'ジャンルは1つ以上選択してください。',
             'genres.*.exists' => '選択されたジャンルは存在しません。',
-            'user_id.required' => '登録者IDは必須です。',
-            'user_id.integer' => '登録者IDは整数で入力してください。',
-            'user_id.exists' => '指定された登録者は存在しません。',
         ];
     }
 }

@@ -124,6 +124,10 @@ class BookShowTest extends TestCase
     {
         $response = $this->getJson('/api/v1/books/999999');
 
-        $response->assertStatus(404);
+        $response
+            ->assertStatus(404)
+            ->assertJson([
+                'message' => '書籍が見つかりませんでした。',
+            ]);
     }
 }

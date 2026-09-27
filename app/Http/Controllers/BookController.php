@@ -132,7 +132,7 @@ class BookController extends Controller
 
         if ($bookData === null) {
             return response()->json([
-                'error' => '該当する書籍が見つかりませんでした。',
+                'error' => '書籍が見つかりませんでした。',
             ], 404);
         }
 

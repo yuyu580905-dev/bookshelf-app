@@ -2,7 +2,12 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -26,5 +31,33 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    /**
+     * APIの認証・認可・リソース未検出エラーをJSONで返す。
+     */
+    public function render($request, Throwable $e): JsonResponse|Response
+    {
+        if ($request->is('api/*')) {
+            if ($e instanceof AuthenticationException) {
+                return response()->json([
+                    'message' => '認証が必要です。',
+                ], 401);
+            }
+
+            if ($e instanceof AuthorizationException) {
+                return response()->json([
+                    'message' => 'この操作を実行する権限がありません。',
+                ], 403);
+            }
+
+            if ($e instanceof ModelNotFoundException) {
+                return response()->json([
+                    'message' => '書籍が見つかりませんでした。',
+                ], 404);
+            }
+        }
+
+        return parent::render($request, $e);
     }
 }
