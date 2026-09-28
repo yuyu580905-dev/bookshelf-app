@@ -65,4 +65,14 @@ class Book extends Model
     {
         return $this->belongsToMany(Genre::class, 'book_genre');
     }
+
+    /**
+     * 本に関連する読書計画を取得する。
+     *
+     * @return HasMany<ReadingPlan> 本に関連する読書計画のリレーション
+     */
+    public function readingPlans(): HasMany
+    {
+        return $this->hasMany(ReadingPlan::class);
+    }
 }
