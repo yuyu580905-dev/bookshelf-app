@@ -32,7 +32,11 @@ class ReviewPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * レビューの更新を許可する。
+     *
+     * @param  User  $user  ログインユーザー
+     * @param  Review  $review  レビュー
+     * @return bool 所有者の場合はtrue
      */
     public function update(User $user, Review $review): bool
     {
@@ -40,7 +44,11 @@ class ReviewPolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * レビューの削除を許可する。
+     *
+     * @param  User  $user  ログインユーザー
+     * @param  Review  $review  レビュー
+     * @return bool 所有者の場合はtrue
      */
     public function delete(User $user, Review $review): bool
     {

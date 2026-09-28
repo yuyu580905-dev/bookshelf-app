@@ -32,7 +32,11 @@ class BookPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * 書籍の更新を許可する。
+     *
+     * @param  User  $user  ログインユーザー
+     * @param  Book  $book  書籍
+     * @return bool 所有者の場合はtrue
      */
     public function update(User $user, Book $book): bool
     {
@@ -40,7 +44,11 @@ class BookPolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * 書籍の削除を許可する。
+     *
+     * @param  User  $user  ログインユーザー
+     * @param  Book  $book  書籍
+     * @return bool 所有者の場合はtrue
      */
     public function delete(User $user, Book $book): bool
     {
