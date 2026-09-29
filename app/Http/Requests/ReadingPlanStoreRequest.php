@@ -26,10 +26,15 @@ class ReadingPlanStoreRequest extends FormRequest
     {
         return [
             'book_id' => ['required', 'integer', 'exists:books,id'],
-            'target_date' => ['required', 'date'],
+            'target_date' => ['required', 'date', 'after_or_equal:today'],
         ];
     }
 
+    /**
+     * バリデーションエラーメッセージを返す。
+     *
+     * @return array<string, string>
+     */
     public function messages(): array
     {
         return [
@@ -38,6 +43,7 @@ class ReadingPlanStoreRequest extends FormRequest
             'book_id.exists' => '選択された書籍は存在しません。',
             'target_date.required' => '期日を入力してください。',
             'target_date.date' => '期日は有効な日付形式で入力してください。',
+            'target_date.after_or_equal' => '期日は未来の日付を入力してください。',
         ];
     }
 }
