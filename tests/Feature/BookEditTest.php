@@ -41,7 +41,7 @@ class BookEditTest extends TestCase
     }
 
     /**
-     * 他ユーザーが他人の書籍編集画面にアクセスすると403になる。
+     * 他ユーザーの書籍編集画面にアクセスすると403になる。
      */
     public function test_other_user_cannot_view_book_edit_page(): void
     {

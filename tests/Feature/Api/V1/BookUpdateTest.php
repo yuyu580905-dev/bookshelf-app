@@ -14,7 +14,7 @@ class BookUpdateTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 認証済みの所有者は書籍を更新できる
+     * 認証済みの所有者は書籍を更新できる。
      */
     public function test_owner_can_update_book(): void
     {
@@ -63,7 +63,7 @@ class BookUpdateTest extends TestCase
     }
 
     /**
-     * 未認証ユーザーは書籍を更新できない
+     * 未認証ユーザーは書籍を更新できない。
      */
     public function test_unauthenticated_user_cannot_update_book(): void
     {
@@ -87,7 +87,7 @@ class BookUpdateTest extends TestCase
     }
 
     /**
-     * 所有者ではないユーザーは書籍を更新できない
+     * 他ユーザーの書籍は更新できない。
      */
     public function test_non_owner_cannot_update_book(): void
     {
@@ -123,7 +123,7 @@ class BookUpdateTest extends TestCase
     }
 
     /**
-     * 存在しない書籍IDの場合は404を返す
+     * 存在しない書籍IDの場合は404を返す。
      */
     public function test_non_existing_book_returns_404(): void
     {
@@ -149,7 +149,7 @@ class BookUpdateTest extends TestCase
     }
 
     /**
-     * ISBNが13桁でない場合は422を返す
+     * ISBNが13桁でない場合は422を返す。
      */
     public function test_invalid_isbn_returns_422(): void
     {
@@ -176,7 +176,7 @@ class BookUpdateTest extends TestCase
     }
 
     /**
-     * 他の書籍と重複するISBNの場合は422を返す
+     * 他の書籍と重複するISBNの場合は422を返す。
      */
     public function test_duplicate_isbn_returns_422(): void
     {
@@ -205,7 +205,7 @@ class BookUpdateTest extends TestCase
     }
 
     /**
-     * 必須項目がない場合は422を返す
+     * 必須項目がない場合は422を返す。
      */
     public function test_required_fields_return_422(): void
     {
@@ -230,7 +230,7 @@ class BookUpdateTest extends TestCase
     }
 
     /**
-     * 不正なジャンルIDの場合は422を返す
+     * 不正なジャンルIDの場合は422を返す。
      */
     public function test_invalid_genre_returns_422(): void
     {

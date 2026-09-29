@@ -15,7 +15,7 @@ class BookDeleteTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 認証済みの所有者は書籍を削除できる
+     * 認証済みの所有者は書籍を削除できる。
      */
     public function test_owner_can_delete_book(): void
     {
@@ -37,7 +37,7 @@ class BookDeleteTest extends TestCase
     }
 
     /**
-     * 未認証ユーザーは書籍を削除できない
+     * 未認証ユーザーは書籍を削除できない。
      */
     public function test_unauthenticated_user_cannot_delete_book(): void
     {
@@ -53,7 +53,7 @@ class BookDeleteTest extends TestCase
     }
 
     /**
-     * 所有者ではないユーザーは書籍を削除できない
+     * 他ユーザーの書籍は削除できない。
      */
     public function test_non_owner_cannot_delete_book(): void
     {
@@ -80,7 +80,7 @@ class BookDeleteTest extends TestCase
     }
 
     /**
-     * 存在しない書籍IDの場合は404を返す
+     * 存在しない書籍IDの場合は404を返す。
      */
     public function test_non_existing_book_returns_404(): void
     {
@@ -98,7 +98,7 @@ class BookDeleteTest extends TestCase
     }
 
     /**
-     * 書籍削除時に関連するレビューも削除される
+     * 書籍削除時に関連するレビューも削除される。
      */
     public function test_related_reviews_are_deleted_with_book(): void
     {
@@ -130,7 +130,7 @@ class BookDeleteTest extends TestCase
     }
 
     /**
-     * 書籍削除時にジャンル自体は削除されない
+     * 書籍削除時にジャンル自体は削除されない。
      */
     public function test_genres_are_not_deleted_with_book(): void
     {

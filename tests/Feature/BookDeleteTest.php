@@ -64,7 +64,7 @@ class BookDeleteTest extends TestCase
     }
 
     /**
-     * 他ユーザーが他人の書籍情報を削除しようとすると403になる。
+     * 他ユーザーの書籍情報を削除しようとすると403になる。
      */
     public function test_other_user_cannot_delete_book(): void
     {

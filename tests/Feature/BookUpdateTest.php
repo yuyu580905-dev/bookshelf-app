@@ -138,7 +138,7 @@ class BookUpdateTest extends TestCase
     }
 
     /**
-     * 他ユーザーが他人の書籍情報を更新しようとすると403になる。
+     * 他ユーザーの書籍情報を更新しようとすると403になる。
      */
     public function test_other_user_cannot_update_book(): void
     {

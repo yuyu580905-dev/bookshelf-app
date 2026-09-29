@@ -45,7 +45,7 @@ class ReviewUpdateTest extends TestCase
     }
 
     /**
-     * 他ユーザーが他人のレビューを更新しようとした場合、403になる。
+     * 他ユーザーのレビューを更新しようとすると403になる。
      */
     public function test_non_owner_cannot_update_review(): void
     {

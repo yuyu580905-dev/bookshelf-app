@@ -34,7 +34,7 @@ class ReviewEditTest extends TestCase
     }
 
     /**
-     * 他ユーザーが他人のレビュー編集画面にアクセスすると403になる。
+     * 他ユーザーのレビュー編集画面にアクセスすると403になる。
      */
     public function test_non_owner_cannot_access_edit_page(): void
     {

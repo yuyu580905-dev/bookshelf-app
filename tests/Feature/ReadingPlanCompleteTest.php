@@ -62,7 +62,7 @@ class ReadingPlanCompleteTest extends TestCase
     }
 
     /**
-     * 他ユーザーの読書計画は読了できない。
+     * 他ユーザーの読書計画を読了に変更しようとすると403になる。
      */
     public function test_non_owner_cannot_complete_reading_plan(): void
     {

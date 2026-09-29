@@ -49,7 +49,7 @@ class ReadingPlanEditTest extends TestCase
     }
 
     /**
-     * 他ユーザーの読書計画は編集画面を表示できない。
+     * 他ユーザーの読書計画編集画面にアクセスすると403になる。
      */
     public function test_non_owner_cannot_see_edit_form(): void
     {

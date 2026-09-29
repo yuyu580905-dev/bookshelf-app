@@ -65,7 +65,7 @@ class ReadingPlanUpdateTest extends TestCase
     }
 
     /**
-     * 他ユーザーの読書計画は更新できない。
+     * 他ユーザーの読書計画を更新しようとすると403になる。
      */
     public function test_non_owner_cannot_update_reading_plan(): void
     {

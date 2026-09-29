@@ -65,7 +65,7 @@ class ReviewDeleteTest extends TestCase
     }
 
     /**
-     * 他ユーザーが他人のレビューを削除しようとした場合、403になる。
+     * 他ユーザーのレビューを削除しようとすると403になる。
      */
     public function test_non_owner_cannot_delete_review(): void
     {
