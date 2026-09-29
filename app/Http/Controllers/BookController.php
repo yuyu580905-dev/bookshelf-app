@@ -33,10 +33,10 @@ class BookController extends Controller
             });
         }
 
-        $sort = request('sort', 'newest');
+        $sort = request('sort', 'latest');
 
         switch ($sort) {
-            case 'newest':
+            case 'latest':
                 $query->latest();
                 break;
 
@@ -193,7 +193,7 @@ class BookController extends Controller
 
         $book->genres()->sync($validated['genres']);
 
-        return redirect()->route('books.show', $book)->with('success', '書籍を更新しました。');
+        return redirect()->route('books.show', $book)->with('success', '書籍情報を更新しました。');
     }
 
     public function destroy(Book $book)

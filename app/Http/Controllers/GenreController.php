@@ -26,7 +26,7 @@ class GenreController extends Controller
             'name' => $request->name,
         ]);
 
-        return redirect()->route('genres.index')->with('success', 'ジャンルを登録しました。');
+        return redirect()->route('genres.index')->with('success', 'ジャンルを作成しました。');
     }
 
     public function show(Genre $genre)
@@ -57,7 +57,7 @@ class GenreController extends Controller
         if ($genre->books()->exists()) {
             return redirect()
                 ->route('genres.index')
-                ->with('error', 'そのジャンルは使用されているため、削除できません。');
+                ->with('error', 'このジャンルには書籍が紐付いているため削除できません。');
         }
 
         $genre->delete();
