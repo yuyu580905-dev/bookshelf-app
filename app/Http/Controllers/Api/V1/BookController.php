@@ -18,7 +18,7 @@ class BookController extends Controller
      */
     public function index(BookIndexRequest $request)
     {
-        $perPage = $request->input('per_page', 10);
+        $perPage = $request->input('per_page', 20);
 
         $books = Book::with('genres')
             ->withAvg('reviews', 'rating')
