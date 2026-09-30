@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Api\V1;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class BookStoreRequest extends FormRequest
 {
@@ -22,7 +23,11 @@ class BookStoreRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'author' => ['required', 'string', 'max:255'],
-            'isbn' => ['required', 'digits:13', 'unique:books,isbn'],
+            'isbn' => [
+                'required',
+                'digits:13',
+                Rule::unique('books', 'isbn'),
+            ],
             'published_date' => ['required', 'date'],
             'description' => ['nullable', 'string'],
             'image_url' => ['nullable', 'url', 'max:255'],
@@ -40,9 +45,9 @@ class BookStoreRequest extends FormRequest
             'title.required' => 'タイトルは必須です。',
             'title.string' => 'タイトルは文字列で入力してください。',
             'title.max' => 'タイトルは255文字以内で入力してください。',
-            'author.required' => '著者は必須です。',
-            'author.string' => '著者は文字列で入力してください。',
-            'author.max' => '著者は255文字以内で入力してください。',
+            'author.required' => '著者名は必須です。',
+            'author.string' => '著者名は文字列で入力してください。',
+            'author.max' => '著者名は255文字以内で入力してください。',
             'isbn.required' => 'ISBNは必須です。',
             'isbn.digits' => 'ISBNは13桁で入力してください。',
             'isbn.unique' => 'そのISBNは既に使用されています。',
