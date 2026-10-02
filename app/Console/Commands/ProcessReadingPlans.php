@@ -65,10 +65,9 @@ class ProcessReadingPlans extends Command
                     ->where('status', '!=', ReadingPlanStatus::Completed->value)
                     ->get()
                     ->each(
-                        fn (ReadingPlan $readingPlan): bool => $this->sendNotification(
-                            $readingPlan,
-                            $timing,
-                        )
+                        function (ReadingPlan $readingPlan) use ($timing): void {
+                            $this->sendNotification($readingPlan, $timing);
+                        }
                     );
             }
         );
@@ -80,7 +79,7 @@ class ProcessReadingPlans extends Command
     private function sendNotification(
         ReadingPlan $readingPlan,
         string $timing,
-    ): bool {
+    ): void {
         $alreadySent = $readingPlan->user
             ->notifications()
             ->where('type', ReadingPlanReminderNotification::class)
@@ -89,7 +88,7 @@ class ProcessReadingPlans extends Command
             ->exists();
 
         if ($alreadySent) {
-            return false;
+            return;
         }
 
         $readingPlan->user->notify(
@@ -98,7 +97,5 @@ class ProcessReadingPlans extends Command
                 $timing,
             )
         );
-
-        return true;
     }
 }

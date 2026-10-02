@@ -110,7 +110,7 @@ class ProcessReadingPlansTest extends TestCase
         Notification::assertSentTo(
             $user,
             ReadingPlanReminderNotification::class,
-            fn (ReadingPlanReminderNotification $notification): bool => $notification->toArray($user)['timing'] === 'three_days_before'
+            fn(ReadingPlanReminderNotification $notification): bool => $notification->toArray($user)['timing'] === 'three_days_before'
         );
     }
 
@@ -136,7 +136,7 @@ class ProcessReadingPlansTest extends TestCase
         Notification::assertSentTo(
             $user,
             ReadingPlanReminderNotification::class,
-            fn (ReadingPlanReminderNotification $notification): bool => $notification->toArray($user)['timing'] === 'on_due_date'
+            fn(ReadingPlanReminderNotification $notification): bool => $notification->toArray($user)['timing'] === 'on_due_date'
         );
     }
 
@@ -162,7 +162,7 @@ class ProcessReadingPlansTest extends TestCase
         Notification::assertSentTo(
             $user,
             ReadingPlanReminderNotification::class,
-            fn (ReadingPlanReminderNotification $notification): bool => $notification->toArray($user)['timing'] === 'three_days_after'
+            fn(ReadingPlanReminderNotification $notification): bool => $notification->toArray($user)['timing'] === 'three_days_after'
         );
     }
 
@@ -194,6 +194,55 @@ class ProcessReadingPlansTest extends TestCase
             ->assertSuccessful();
 
         $this->assertDatabaseCount('notifications', 1);
+    }
+
+    /**
+     * 通知済みの読書計画があっても後続の読書計画にリマインダー通知を送信する。
+     */
+    public function test_sends_reminder_to_subsequent_reading_plan_after_duplicate(): void
+    {
+        Carbon::setTestNow('2026-09-19 09:00:00');
+
+        $user = User::factory()->create();
+
+        $notifiedReadingPlan = ReadingPlan::factory()->create([
+            'user_id' => $user->id,
+            'target_date' => Carbon::today(),
+            'status' => ReadingPlanStatus::InProgress,
+        ]);
+
+        $newReadingPlan = ReadingPlan::factory()->create([
+            'user_id' => $user->id,
+            'target_date' => Carbon::today(),
+            'status' => ReadingPlanStatus::InProgress,
+        ]);
+
+        $user->notify(
+            new ReadingPlanReminderNotification(
+                $notifiedReadingPlan,
+                'on_due_date',
+            )
+        );
+
+        $this->assertDatabaseCount('notifications', 1);
+
+        $this->artisan('reading-plans:process')
+            ->assertSuccessful();
+
+        $this->assertSame(
+            2,
+            $user->notifications()
+                ->where('data->timing', 'on_due_date')
+                ->count()
+        );
+
+        $this->assertSame(
+            1,
+            $user->notifications()
+                ->where('data->reading_plan_id', $newReadingPlan->id)
+                ->where('data->timing', 'on_due_date')
+                ->count()
+        );
     }
 
     /**
