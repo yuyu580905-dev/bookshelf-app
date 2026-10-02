@@ -110,7 +110,7 @@ class ProcessReadingPlansTest extends TestCase
         Notification::assertSentTo(
             $user,
             ReadingPlanReminderNotification::class,
-            fn(ReadingPlanReminderNotification $notification): bool => $notification->toArray($user)['timing'] === 'three_days_before'
+            fn (ReadingPlanReminderNotification $notification): bool => $notification->toArray($user)['timing'] === 'three_days_before'
         );
     }
 
@@ -136,7 +136,7 @@ class ProcessReadingPlansTest extends TestCase
         Notification::assertSentTo(
             $user,
             ReadingPlanReminderNotification::class,
-            fn(ReadingPlanReminderNotification $notification): bool => $notification->toArray($user)['timing'] === 'on_due_date'
+            fn (ReadingPlanReminderNotification $notification): bool => $notification->toArray($user)['timing'] === 'on_due_date'
         );
     }
 
@@ -162,7 +162,7 @@ class ProcessReadingPlansTest extends TestCase
         Notification::assertSentTo(
             $user,
             ReadingPlanReminderNotification::class,
-            fn(ReadingPlanReminderNotification $notification): bool => $notification->toArray($user)['timing'] === 'three_days_after'
+            fn (ReadingPlanReminderNotification $notification): bool => $notification->toArray($user)['timing'] === 'three_days_after'
         );
     }
 

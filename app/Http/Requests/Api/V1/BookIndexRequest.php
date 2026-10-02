@@ -33,10 +33,10 @@ class BookIndexRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'keyword.string' => 'キーワードは文字列である必要があります。',
-            'keyword.max' => 'キーワードは最大255文字までです。',
-            'genre_id.integer' => 'ジャンルIDは整数である必要があります。',
-            'genre_id.exists' => '指定されたジャンルIDは存在しません。',
+            'keyword.string' => 'キーワードは文字列で入力してください。',
+            'keyword.max' => 'キーワードは255文字以内で入力してください。',
+            'genre_id.integer' => 'ジャンルIDは整数で入力してください。',
+            'genre_id.exists' => '指定されたジャンルは存在しません。',
             'page.integer' => 'ページ番号は整数である必要があります。',
             'page.min' => 'ページ番号は1以上である必要があります。',
             'per_page.integer' => '1ページあたりの件数は整数である必要があります。',

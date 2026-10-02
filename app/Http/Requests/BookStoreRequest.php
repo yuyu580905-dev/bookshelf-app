@@ -51,7 +51,6 @@ class BookStoreRequest extends FormRequest
             'isbn.required' => 'ISBNは必須です。',
             'isbn.digits' => 'ISBNは13桁で入力してください。',
             'isbn.unique' => 'そのISBNは既に使用されています。',
-            'published_date.required' => '出版日は必須です。',
             'published_date.date' => '出版日は有効な日付形式で入力してください。',
             'description.string' => '説明は文字列で入力してください。',
             'image_url.url' => '画像URLは有効なURL形式で入力してください。',
