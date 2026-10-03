@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 /**
  * 読書計画登録時のバリデーションを定義するFormRequest。
@@ -25,7 +26,14 @@ class ReadingPlanStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'book_id' => ['required', 'integer', 'exists:books,id'],
+            'book_id' => [
+                'required',
+                'integer',
+                'exists:books,id',
+                Rule::unique('reading_plans', 'book_id')
+                    ->where('user_id', $this->user()->id)
+                    ->where('status', 'in_progress'),
+            ],
             'target_date' => ['required', 'date', 'after_or_equal:today'],
         ];
     }
@@ -41,6 +49,7 @@ class ReadingPlanStoreRequest extends FormRequest
             'book_id.required' => '書籍は必須です。',
             'book_id.integer' => '書籍IDは整数で入力してください。',
             'book_id.exists' => '選択された書籍は存在しません。',
+            'book_id.unique' => 'この書籍は既に読書計画に登録されています。',
             'target_date.required' => '期日を入力してください。',
             'target_date.date' => '期日は有効な日付形式で入力してください。',
             'target_date.after_or_equal' => '期日は未来の日付を入力してください。',

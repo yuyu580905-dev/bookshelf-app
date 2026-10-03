@@ -34,7 +34,7 @@ class ReadingPlanEditTest extends TestCase
 
         $readingPlan = ReadingPlan::factory()->create([
             'user_id' => $user->id,
-            'target_date' => '2026-10-01',
+            'target_date' => '2026-11-01',
         ]);
 
         $response = $this->actingAs($user)
@@ -45,7 +45,7 @@ class ReadingPlanEditTest extends TestCase
             ->assertViewHas('readingPlan', function ($viewReadingPlan) use ($readingPlan) {
                 return $viewReadingPlan->is($readingPlan);
             })
-            ->assertSee('2026-10-01');
+            ->assertSee('2026-11-01');
     }
 
     /**

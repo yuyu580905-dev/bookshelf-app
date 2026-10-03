@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Enums\ReadingPlanStatus;
 use App\Models\Book;
+use App\Models\ReadingPlan;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -40,7 +41,7 @@ class ReadingPlanStoreTest extends TestCase
         $response = $this->actingAs($user)
             ->post(route('reading-plans.store'), [
                 'book_id' => $book->id,
-                'target_date' => '2026-10-01',
+                'target_date' => '2026-11-01',
             ]);
 
         $response->assertRedirect(route('reading-plans.index'));
@@ -48,7 +49,98 @@ class ReadingPlanStoreTest extends TestCase
         $this->assertDatabaseHas('reading_plans', [
             'user_id' => $user->id,
             'book_id' => $book->id,
-            'target_date' => '2026-10-01',
+            'target_date' => '2026-11-01',
+            'status' => ReadingPlanStatus::InProgress->value,
+            'completed_at' => null,
+        ]);
+    }
+
+    /**
+     * 同一ユーザーが同一書籍のin_progress読書計画を重複して登録できない。
+     */
+    public function test_same_user_cannot_store_duplicate_in_progress_reading_plan(): void
+    {
+        $user = User::factory()->create();
+        $book = Book::factory()->create();
+
+        ReadingPlan::factory()->create([
+            'user_id' => $user->id,
+            'book_id' => $book->id,
+            'status' => ReadingPlanStatus::InProgress,
+        ]);
+
+        $response = $this->actingAs($user)
+            ->post(route('reading-plans.store'), [
+                'book_id' => $book->id,
+                'target_date' => '2026-11-01',
+            ]);
+
+        $response->assertSessionHasErrors('book_id');
+
+        $this->assertDatabaseCount('reading_plans', 1);
+    }
+
+    /**
+     * 同一ユーザーでも同一書籍のcompleted読書計画があれば新しい計画を登録できる。
+     */
+    public function test_same_user_can_store_reading_plan_for_completed_book(): void
+    {
+        $user = User::factory()->create();
+        $book = Book::factory()->create();
+
+        ReadingPlan::factory()->create([
+            'user_id' => $user->id,
+            'book_id' => $book->id,
+            'status' => ReadingPlanStatus::Completed,
+            'completed_at' => now(),
+        ]);
+
+        $response = $this->actingAs($user)
+            ->post(route('reading-plans.store'), [
+                'book_id' => $book->id,
+                'target_date' => '2026-11-01',
+            ]);
+
+        $response->assertRedirect(route('reading-plans.index'));
+
+        $this->assertDatabaseCount('reading_plans', 2);
+
+        $this->assertDatabaseHas('reading_plans', [
+            'user_id' => $user->id,
+            'book_id' => $book->id,
+            'target_date' => '2026-11-01',
+            'status' => ReadingPlanStatus::InProgress->value,
+            'completed_at' => null,
+        ]);
+    }
+
+    /**
+     * 別ユーザーが同一書籍のin_progress読書計画を登録できる。
+     */
+    public function test_different_user_can_store_same_book_in_progress(): void
+    {
+        $existingUser = User::factory()->create();
+        $newUser = User::factory()->create();
+        $book = Book::factory()->create();
+
+        ReadingPlan::factory()->create([
+            'user_id' => $existingUser->id,
+            'book_id' => $book->id,
+            'status' => ReadingPlanStatus::InProgress,
+        ]);
+
+        $response = $this->actingAs($newUser)
+            ->post(route('reading-plans.store'), [
+                'book_id' => $book->id,
+                'target_date' => '2026-11-01',
+            ]);
+
+        $response->assertRedirect(route('reading-plans.index'));
+
+        $this->assertDatabaseHas('reading_plans', [
+            'user_id' => $newUser->id,
+            'book_id' => $book->id,
+            'target_date' => '2026-11-01',
             'status' => ReadingPlanStatus::InProgress->value,
             'completed_at' => null,
         ]);
