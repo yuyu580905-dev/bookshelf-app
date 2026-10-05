@@ -76,7 +76,7 @@ sail artisan key:generate
 sail artisan migrate --seed
 ```
 
-> DBを初期状態にリセットする場合は以下を実行してください。
+> DBを初期状態にリセットする場合は、以下を実行してください。
 >
 > ```bash
 > sail artisan migrate:fresh --seed
