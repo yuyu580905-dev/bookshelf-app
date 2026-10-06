@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Enums\ReadingPlanStatus;
 use App\Models\ReadingPlan;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -61,6 +62,37 @@ class ReadingPlanUpdateTest extends TestCase
             'id' => $readingPlan->id,
             'user_id' => $user->id,
             'target_date' => '2026-11-01',
+        ]);
+    }
+
+    /**
+     * Completedの読書計画は更新できず403になる。
+     */
+    public function test_completed_reading_plan_cannot_be_updated(): void
+    {
+        $user = User::factory()->create();
+
+        $readingPlan = ReadingPlan::factory()->create([
+            'user_id' => $user->id,
+            'target_date' => '2026-10-01',
+            'status' => ReadingPlanStatus::Completed,
+        ]);
+
+        $response = $this->actingAs($user)
+            ->put(
+                route('reading-plans.update', $readingPlan),
+                [
+                    'target_date' => '2026-11-01',
+                ]
+            );
+
+        $response->assertForbidden();
+
+        $this->assertDatabaseHas('reading_plans', [
+            'id' => $readingPlan->id,
+            'user_id' => $user->id,
+            'target_date' => '2026-10-01',
+            'status' => ReadingPlanStatus::Completed->value,
         ]);
     }
 

@@ -65,7 +65,6 @@ class BookStoreTest extends TestCase
         $response = $this->actingAs($user)
             ->post('/books', [
                 'isbn' => '9784000000002',
-                'published_date' => '2026-09-01',
                 'genres' => [Genre::factory()->create()->id],
             ]);
 

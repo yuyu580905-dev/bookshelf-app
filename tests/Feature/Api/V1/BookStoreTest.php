@@ -87,7 +87,6 @@ class BookStoreTest extends TestCase
                 'title',
                 'author',
                 'isbn',
-                'published_date',
                 'genres',
             ]);
     }

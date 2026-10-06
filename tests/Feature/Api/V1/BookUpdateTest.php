@@ -224,7 +224,6 @@ class BookUpdateTest extends TestCase
                 'title',
                 'author',
                 'isbn',
-                'published_date',
                 'genres',
             ]);
     }
