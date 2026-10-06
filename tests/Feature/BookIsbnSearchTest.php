@@ -59,9 +59,9 @@ class BookIsbnSearchTest extends TestCase
     }
 
     /**
-     * ISBNが13桁でない場合に422を返す。
+     * ISBNが13桁でない場合に400を返す。
      */
-    public function test_isbn_search_returns_422_for_invalid_length(): void
+    public function test_isbn_search_returns_400_for_invalid_length(): void
     {
         $user = User::factory()->create();
 
@@ -69,16 +69,16 @@ class BookIsbnSearchTest extends TestCase
             ->getJson('/books/isbn/123456789012');
 
         $response
-            ->assertStatus(422)
+            ->assertStatus(400)
             ->assertJson([
                 'error' => 'ISBNは13桁で入力してください。',
             ]);
     }
 
     /**
-     * ISBNに数字以外が含まれる場合に422を返す。
+     * ISBNに数字以外が含まれる場合に400を返す。
      */
-    public function test_isbn_search_returns_422_for_non_numeric_isbn(): void
+    public function test_isbn_search_returns_400_for_non_numeric_isbn(): void
     {
         $user = User::factory()->create();
 
@@ -86,9 +86,9 @@ class BookIsbnSearchTest extends TestCase
             ->getJson('/books/isbn/978123456789A');
 
         $response
-            ->assertStatus(422)
+            ->assertStatus(400)
             ->assertJson([
-                'error' => 'ISBNは数字13桁で入力してください。',
+                'error' => 'ISBNは13桁で入力してください。',
             ]);
     }
 
@@ -153,9 +153,9 @@ class BookIsbnSearchTest extends TestCase
     }
 
     /**
-     * Google Books APIでエラーが発生した場合に502を返す。
+     * Google Books APIでエラーが発生した場合に500を返す。
      */
-    public function test_isbn_search_returns_502_when_google_books_api_fails(): void
+    public function test_isbn_search_returns_500_when_google_books_api_fails(): void
     {
         $user = User::factory()->create();
 
@@ -167,9 +167,34 @@ class BookIsbnSearchTest extends TestCase
             ->getJson('/books/isbn/9781234567890');
 
         $response
-            ->assertStatus(502)
+            ->assertStatus(500)
             ->assertJson([
-                'error' => 'Google Books APIとの通信に失敗しました。',
+                'error' => 'API通信エラーが発生しました。',
             ]);
+    }
+
+    /**
+     * Google Books APIのクォータ超過時は429を返す。
+     */
+    public function test_api_quota_exceeded_returns_429(): void
+    {
+        Http::fake([
+            'https://www.googleapis.com/books/v1/volumes*' => Http::response(
+                [],
+                429
+            ),
+        ]);
+
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get(
+            route('books.isbn', ['isbn' => '9780262032933'])
+        );
+
+        $response->assertStatus(429);
+
+        $response->assertJson([
+            'error' => 'Google Books API のクォータを超過しました。.env に GOOGLE_BOOKS_API_KEY を設定してください。',
+        ]);
     }
 }

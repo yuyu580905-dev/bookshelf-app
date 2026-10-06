@@ -84,16 +84,10 @@ class BookController extends Controller
      */
     public function searchByIsbn(string $isbn): JsonResponse
     {
-        if (strlen($isbn) !== 13) {
+        if (strlen($isbn) !== 13 || ! ctype_digit($isbn)) {
             return response()->json([
                 'error' => 'ISBNは13桁で入力してください。',
-            ], 422);
-        }
-
-        if (! ctype_digit($isbn)) {
-            return response()->json([
-                'error' => 'ISBNは数字13桁で入力してください。',
-            ], 422);
+            ], 400);
         }
 
         try {
@@ -110,14 +104,20 @@ class BookController extends Controller
                 );
         } catch (\Throwable $e) {
             return response()->json([
-                'error' => 'Google Books APIとの通信に失敗しました。',
-            ], 502);
+                'error' => 'API通信エラーが発生しました。',
+            ], 500);
+        }
+
+        if ($response->status() === 429) {
+            return response()->json([
+                'error' => 'Google Books API のクォータを超過しました。.env に GOOGLE_BOOKS_API_KEY を設定してください。',
+            ], 429);
         }
 
         if ($response->failed()) {
             return response()->json([
-                'error' => 'Google Books APIとの通信に失敗しました。',
-            ], 502);
+                'error' => 'API通信エラーが発生しました。',
+            ], 500);
         }
 
         $items = $response->json('items', []);
