@@ -152,7 +152,7 @@ sail npm run build
 sail artisan reading-plans:process
 ```
 
-※本番環境ではLaravelのスケジューラにより、毎日9:00に自動実行されます。
+※本番環境ではLaravelのスケジューラにより、毎日20:00に自動実行されます。
 
 ## Google Books API について
 
