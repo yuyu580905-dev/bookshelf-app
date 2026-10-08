@@ -38,6 +38,12 @@ class BookEditTest extends TestCase
         foreach ($genres as $genre) {
             $response->assertSee($genre->name);
         }
+
+        $response->assertViewHas('book', $book);
+        $response->assertViewHas('genres', function ($viewGenres) use ($genres) {
+            return $viewGenres->pluck('id')->sort()->values()->toArray()
+                === $genres->pluck('id')->sort()->values()->toArray();
+        });
     }
 
     /**

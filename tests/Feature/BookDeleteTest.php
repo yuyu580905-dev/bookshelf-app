@@ -33,7 +33,7 @@ class BookDeleteTest extends TestCase
             ->for($otherUser)
             ->create();
 
-        $book->favoriteUsers()->attach($otherUser);
+        $book->favoritedByUsers()->attach($otherUser);
 
         $review->likedByUsers()->attach($user);
 

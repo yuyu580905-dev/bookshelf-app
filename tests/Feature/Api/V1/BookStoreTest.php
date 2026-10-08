@@ -13,7 +13,7 @@ class BookStoreTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 認証済みユーザーは書籍を登録できる
+     * 認証済みユーザーは書籍を登録できる。（201を返す）
      */
     public function test_authenticated_user_can_create_book(): void
     {
@@ -42,10 +42,15 @@ class BookStoreTest extends TestCase
             'title' => 'テスト書籍',
             'user_id' => $user->id,
         ]);
+
+        $this->assertDatabaseHas('book_genre', [
+            'book_id' => $response->json('data.id'),
+            'genre_id' => $genre->id,
+        ]);
     }
 
     /**
-     * 未認証ユーザーは書籍を登録できない
+     * 未認証ユーザーは書籍を登録できない。（401を返す）
      */
     public function test_unauthenticated_user_cannot_create_book(): void
     {
@@ -71,7 +76,7 @@ class BookStoreTest extends TestCase
     }
 
     /**
-     * 必須項目がない場合は422を返す
+     * 必須項目がない場合は422を返す。
      */
     public function test_required_fields_return_422(): void
     {
@@ -92,7 +97,7 @@ class BookStoreTest extends TestCase
     }
 
     /**
-     * ISBNが13桁でない場合は422を返す
+     * ISBNが13桁でない場合は422を返す。
      */
     public function test_invalid_isbn_returns_422(): void
     {
@@ -117,7 +122,7 @@ class BookStoreTest extends TestCase
     }
 
     /**
-     * 存在しないジャンルIDの場合は422を返す
+     * 存在しないジャンルIDの場合は422を返す。
      */
     public function test_invalid_genre_returns_422(): void
     {

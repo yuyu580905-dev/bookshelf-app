@@ -15,7 +15,7 @@ class BookDeleteTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 認証済みの所有者は書籍を削除できる。
+     * 認証済みの所有者は書籍を削除できる。（204を返す）
      */
     public function test_owner_can_delete_book(): void
     {
@@ -37,7 +37,7 @@ class BookDeleteTest extends TestCase
     }
 
     /**
-     * 未認証ユーザーは書籍を削除できない。
+     * 未認証ユーザーは書籍を削除できない。(401を返す)
      */
     public function test_unauthenticated_user_cannot_delete_book(): void
     {
@@ -53,7 +53,7 @@ class BookDeleteTest extends TestCase
     }
 
     /**
-     * 他ユーザーの書籍は削除できない。
+     * 他ユーザーの書籍は削除できない。(403を返す)
      */
     public function test_non_owner_cannot_delete_book(): void
     {

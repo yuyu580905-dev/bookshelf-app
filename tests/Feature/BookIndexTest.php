@@ -170,6 +170,11 @@ class BookIndexTest extends TestCase
 
         $this->assertSame($newBook->id, $books->first()->id);
         $this->assertSame($oldBook->id, $books->last()->id);
+
+        $response->assertSeeInOrder([
+            '新しい本',
+            '古い本',
+        ]);
     }
 
     /**
@@ -193,6 +198,11 @@ class BookIndexTest extends TestCase
 
         $this->assertSame($oldBook->id, $books->first()->id);
         $this->assertSame($newBook->id, $books->last()->id);
+
+        $response->assertSeeInOrder([
+            '古い本',
+            '新しい本',
+        ]);
     }
 
     /**
@@ -262,10 +272,12 @@ class BookIndexTest extends TestCase
     public function test_books_are_sorted_by_latest_by_default(): void
     {
         $oldBook = Book::factory()->create([
+            'title' => '古い本',
             'created_at' => now()->subDays(2),
         ]);
 
         $newBook = Book::factory()->create([
+            'title' => '新しい本',
             'created_at' => now(),
         ]);
 
@@ -275,6 +287,11 @@ class BookIndexTest extends TestCase
 
         $this->assertSame($newBook->id, $books->first()->id);
         $this->assertSame($oldBook->id, $books->last()->id);
+
+        $response->assertSeeInOrder([
+            '新しい本',
+            '古い本',
+        ]);
     }
 
     /**

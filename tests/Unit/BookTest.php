@@ -58,15 +58,15 @@ class BookTest extends TestCase
     }
 
     /**
-     * favoriteUsersリレーションがBelongsToManyであることを確認する。
+     * favoritedByUsersリレーションがBelongsToManyであることを確認する。
      */
-    public function test_favorite_users_relationship_is_belongs_to_many(): void
+    public function test_favorited_by_users_relationship_is_belongs_to_many(): void
     {
         $book = new Book;
 
         $this->assertInstanceOf(
             BelongsToMany::class,
-            $book->favoriteUsers(),
+            $book->favoritedByUsers(),
         );
     }
 

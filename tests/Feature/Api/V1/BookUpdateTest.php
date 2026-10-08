@@ -14,7 +14,7 @@ class BookUpdateTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 認証済みの所有者は書籍を更新できる。
+     * 認証済みの所有者は書籍を更新できる。（200を返す）
      */
     public function test_owner_can_update_book(): void
     {
@@ -63,7 +63,7 @@ class BookUpdateTest extends TestCase
     }
 
     /**
-     * 未認証ユーザーは書籍を更新できない。
+     * 未認証ユーザーは書籍を更新できない。(401を返す)
      */
     public function test_unauthenticated_user_cannot_update_book(): void
     {
@@ -87,7 +87,7 @@ class BookUpdateTest extends TestCase
     }
 
     /**
-     * 他ユーザーの書籍は更新できない。
+     * 他ユーザーの書籍は更新できない。(403を返す)
      */
     public function test_non_owner_cannot_update_book(): void
     {

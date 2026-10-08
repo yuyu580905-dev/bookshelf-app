@@ -112,6 +112,30 @@ class BookIndexTest extends TestCase
     }
 
     /**
+     * 書籍一覧APIがページネーションのmeta情報を返す。
+     */
+    public function test_books_index_api_returns_meta_information(): void
+    {
+        Book::factory()->count(3)->create();
+
+        $response = $this->getJson('/api/v1/books?per_page=2');
+
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                'data',
+                'links',
+                'meta' => [
+                    'current_page',
+                    'from',
+                    'last_page',
+                    'per_page',
+                    'to',
+                    'total',
+                ],
+            ]);
+    }
+
+    /**
      * キーワードでタイトルを部分一致検索できる。
      */
     public function test_books_index_api_can_search_books_by_title_keyword(): void

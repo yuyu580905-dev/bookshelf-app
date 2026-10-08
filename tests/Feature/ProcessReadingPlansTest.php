@@ -30,7 +30,7 @@ class ProcessReadingPlansTest extends TestCase
      */
     public function test_expired_reading_plan_is_marked_as_expired(): void
     {
-        Carbon::setTestNow('2026-09-19 09:00:00');
+        Carbon::setTestNow('2026-09-19 20:00:00');
 
         $readingPlan = ReadingPlan::factory()->create([
             'target_date' => Carbon::yesterday(),
@@ -51,7 +51,7 @@ class ProcessReadingPlansTest extends TestCase
      */
     public function test_reading_plan_on_target_date_is_not_marked_as_expired(): void
     {
-        Carbon::setTestNow('2026-09-19 09:00:00');
+        Carbon::setTestNow('2026-09-19 20:00:00');
 
         $readingPlan = ReadingPlan::factory()->create([
             'target_date' => Carbon::today(),
@@ -68,11 +68,11 @@ class ProcessReadingPlansTest extends TestCase
     }
 
     /**
-     * 読了済みの読書計画は期限切れに変更しない。
+     * Completed（読了済み）の読書計画は期限切れに変更しない。
      */
     public function test_completed_reading_plan_is_not_marked_as_expired(): void
     {
-        Carbon::setTestNow('2026-09-19 09:00:00');
+        Carbon::setTestNow('2026-09-19 20:00:00');
 
         $readingPlan = ReadingPlan::factory()->create([
             'target_date' => Carbon::yesterday(),
@@ -89,16 +89,15 @@ class ProcessReadingPlansTest extends TestCase
     }
 
     /**
-     * 期日の3日前にリマインダー通知を送信する。
+     * 期日の3日前にリマインダー通知をDatabaseChannelへ送信する。
      */
     public function test_sends_three_days_before_reminder(): void
     {
-        Carbon::setTestNow('2026-09-19 09:00:00');
-        Notification::fake();
+        Carbon::setTestNow('2026-09-19 20:00:00');
 
         $user = User::factory()->create();
 
-        ReadingPlan::factory()->create([
+        $readingPlan = ReadingPlan::factory()->create([
             'user_id' => $user->id,
             'target_date' => Carbon::today()->addDays(3),
             'status' => ReadingPlanStatus::InProgress,
@@ -107,24 +106,35 @@ class ProcessReadingPlansTest extends TestCase
         $this->artisan('reading-plans:process')
             ->assertSuccessful();
 
-        Notification::assertSentTo(
-            $user,
-            ReadingPlanReminderNotification::class,
-            fn (ReadingPlanReminderNotification $notification): bool => $notification->toArray($user)['timing'] === 'three_days_before'
+        $this->assertDatabaseHas('notifications', [
+            'notifiable_id' => $user->id,
+            'notifiable_type' => User::class,
+            'type' => ReadingPlanReminderNotification::class,
+        ]);
+
+        $notification = $user->notifications()->first();
+
+        $this->assertSame(
+            'three_days_before',
+            $notification->data['timing']
+        );
+
+        $this->assertSame(
+            $readingPlan->id,
+            $notification->data['reading_plan_id']
         );
     }
 
     /**
-     * 期日にリマインダー通知を送信する。
+     * 期日当日にリマインダー通知をDatabaseChannelへ送信する。
      */
     public function test_sends_on_due_date_reminder(): void
     {
-        Carbon::setTestNow('2026-09-19 09:00:00');
-        Notification::fake();
+        Carbon::setTestNow('2026-09-19 20:00:00');
 
         $user = User::factory()->create();
 
-        ReadingPlan::factory()->create([
+        $readingPlan = ReadingPlan::factory()->create([
             'user_id' => $user->id,
             'target_date' => Carbon::today(),
             'status' => ReadingPlanStatus::InProgress,
@@ -133,24 +143,35 @@ class ProcessReadingPlansTest extends TestCase
         $this->artisan('reading-plans:process')
             ->assertSuccessful();
 
-        Notification::assertSentTo(
-            $user,
-            ReadingPlanReminderNotification::class,
-            fn (ReadingPlanReminderNotification $notification): bool => $notification->toArray($user)['timing'] === 'on_due_date'
+        $this->assertDatabaseHas('notifications', [
+            'notifiable_id' => $user->id,
+            'notifiable_type' => User::class,
+            'type' => ReadingPlanReminderNotification::class,
+        ]);
+
+        $notification = $user->notifications()->first();
+
+        $this->assertSame(
+            'on_due_date',
+            $notification->data['timing']
+        );
+
+        $this->assertSame(
+            $readingPlan->id,
+            $notification->data['reading_plan_id']
         );
     }
 
     /**
-     * 期日の3日後にリマインダー通知を送信する。
+     * 期日の3日後にリマインダー通知をDatabaseChannelへ送信する。
      */
     public function test_sends_three_days_after_reminder(): void
     {
-        Carbon::setTestNow('2026-09-19 09:00:00');
-        Notification::fake();
+        Carbon::setTestNow('2026-09-19 20:00:00');
 
         $user = User::factory()->create();
 
-        ReadingPlan::factory()->create([
+        $readingPlan = ReadingPlan::factory()->create([
             'user_id' => $user->id,
             'target_date' => Carbon::today()->subDays(3),
             'status' => ReadingPlanStatus::InProgress,
@@ -159,11 +180,44 @@ class ProcessReadingPlansTest extends TestCase
         $this->artisan('reading-plans:process')
             ->assertSuccessful();
 
-        Notification::assertSentTo(
-            $user,
-            ReadingPlanReminderNotification::class,
-            fn (ReadingPlanReminderNotification $notification): bool => $notification->toArray($user)['timing'] === 'three_days_after'
+        $this->assertDatabaseHas('notifications', [
+            'notifiable_id' => $user->id,
+            'notifiable_type' => User::class,
+            'type' => ReadingPlanReminderNotification::class,
+        ]);
+
+        $notification = $user->notifications()->first();
+
+        $this->assertSame(
+            'three_days_after',
+            $notification->data['timing']
         );
+
+        $this->assertSame(
+            $readingPlan->id,
+            $notification->data['reading_plan_id']
+        );
+    }
+
+    /**
+     * リマインダー対象日以外の読書計画には通知を送信しない。
+     */
+    public function test_does_not_send_reminder_for_non_reminder_date(): void
+    {
+        Carbon::setTestNow('2026-09-19 20:00:00');
+
+        $user = User::factory()->create();
+
+        ReadingPlan::factory()->create([
+            'user_id' => $user->id,
+            'target_date' => Carbon::today()->addDays(2),
+            'status' => ReadingPlanStatus::InProgress,
+        ]);
+
+        $this->artisan('reading-plans:process')
+            ->assertSuccessful();
+
+        $this->assertDatabaseCount('notifications', 0);
     }
 
     /**
@@ -171,7 +225,7 @@ class ProcessReadingPlansTest extends TestCase
      */
     public function test_does_not_send_duplicate_reminder(): void
     {
-        Carbon::setTestNow('2026-09-19 09:00:00');
+        Carbon::setTestNow('2026-09-19 20:00:00');
 
         $user = User::factory()->create();
 
@@ -201,7 +255,7 @@ class ProcessReadingPlansTest extends TestCase
      */
     public function test_sends_reminder_to_subsequent_reading_plan_after_duplicate(): void
     {
-        Carbon::setTestNow('2026-09-19 09:00:00');
+        Carbon::setTestNow('2026-09-19 20:00:00');
 
         $user = User::factory()->create();
 
@@ -250,7 +304,7 @@ class ProcessReadingPlansTest extends TestCase
      */
     public function test_does_not_send_reminder_for_completed_reading_plan(): void
     {
-        Carbon::setTestNow('2026-09-19 09:00:00');
+        Carbon::setTestNow('2026-09-19 20:00:00');
         Notification::fake();
 
         $user = User::factory()->create();

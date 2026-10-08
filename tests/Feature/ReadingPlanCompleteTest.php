@@ -13,7 +13,7 @@ class ReadingPlanCompleteTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * ゲストは読書計画を読了できず、ログイン画面へリダイレクトされる。
+     * ゲストは読書計画を「読了」にできず、ログイン画面へリダイレクトされる。
      */
     public function test_guest_is_redirected_to_login(): void
     {

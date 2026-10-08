@@ -121,6 +121,9 @@ class ReadingPlanController extends Controller
 
         $readingPlan->update([
             'target_date' => $request->date('target_date'),
+            'status' => $readingPlan->status === ReadingPlanStatus::Expired
+                ? ReadingPlanStatus::InProgress
+                : $readingPlan->status,
         ]);
 
         return redirect()
@@ -137,6 +140,10 @@ class ReadingPlanController extends Controller
     public function destroy(ReadingPlan $readingPlan): RedirectResponse
     {
         $this->authorize('delete', $readingPlan);
+
+        $readingPlan->user->notifications()
+            ->where('data->reading_plan_id', $readingPlan->id)
+            ->delete();
 
         $readingPlan->delete();
 

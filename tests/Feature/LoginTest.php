@@ -88,4 +88,27 @@ class LoginTest extends TestCase
         // ホームにリダイレクトされることを確認
         $response->assertRedirect('/');
     }
+
+    /**
+     * 認証済みユーザーがログインページにアクセスするとホームにリダイレクトされる。
+     */
+    public function test_authenticated_user_is_redirected_to_home_from_login_page(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)
+            ->get('/login');
+
+        $response->assertRedirect('/');
+    }
+
+    /**
+     * ゲストユーザーはログインページにアクセスできる。
+     */
+    public function test_guest_can_access_login_page(): void
+    {
+        $response = $this->get('/login');
+
+        $response->assertStatus(200);
+    }
 }

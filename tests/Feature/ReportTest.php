@@ -345,4 +345,31 @@ class ReportTest extends TestCase
 
         $this->assertCount(5, $stats['genre_ratings']);
     }
+
+    /**
+     * レビューがないユーザーでも各統計が安全に処理される。
+     */
+    public function test_report_statistics_are_empty_when_user_has_no_reviews(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)
+            ->get(route('reports.index'));
+
+        $response->assertOk();
+
+        $stats = $response->viewData('stats');
+
+        $this->assertSame(0, $stats['summary']['total_reviews']);
+        $this->assertSame(0, $stats['summary']['books_read']);
+        $this->assertSame(0, $stats['summary']['average_rating']);
+
+        $this->assertSame(
+            [0, 0, 0, 0, 0],
+            $stats['rating_distribution']->all()
+        );
+
+        $this->assertCount(0, $stats['top_rated_books']);
+        $this->assertCount(0, $stats['genre_ratings']);
+    }
 }

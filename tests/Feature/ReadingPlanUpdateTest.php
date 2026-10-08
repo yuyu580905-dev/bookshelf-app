@@ -66,6 +66,37 @@ class ReadingPlanUpdateTest extends TestCase
     }
 
     /**
+     * 期限切れの読書計画の期日を更新するとInProgressに戻る。
+     */
+    public function test_expired_reading_plan_returns_to_in_progress_when_target_date_is_updated(): void
+    {
+        $user = User::factory()->create();
+
+        $readingPlan = ReadingPlan::factory()->create([
+            'user_id' => $user->id,
+            'target_date' => '2026-10-01',
+            'status' => ReadingPlanStatus::Expired,
+        ]);
+
+        $response = $this->actingAs($user)
+            ->put(
+                route('reading-plans.update', $readingPlan),
+                [
+                    'target_date' => '2026-11-01',
+                ]
+            );
+
+        $response->assertRedirect(route('reading-plans.index'));
+
+        $this->assertDatabaseHas('reading_plans', [
+            'id' => $readingPlan->id,
+            'user_id' => $user->id,
+            'target_date' => '2026-11-01',
+            'status' => ReadingPlanStatus::InProgress->value,
+        ]);
+    }
+
+    /**
      * Completedの読書計画は更新できず403になる。
      */
     public function test_completed_reading_plan_cannot_be_updated(): void
