@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ReadingPlanStatus;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\ReadingPlanStoreRequest;
 use App\Http\Requests\ReadingPlanUpdateRequest;
 use App\Models\Book;
@@ -31,7 +32,7 @@ class ReadingPlanController extends Controller
             ->with('book')
             ->when(
                 $currentStatus,
-                fn ($query) => $query->where('status', $currentStatus)
+                fn($query) => $query->where('status', $currentStatus)
             )
             ->get();
 
@@ -141,11 +142,13 @@ class ReadingPlanController extends Controller
     {
         $this->authorize('delete', $readingPlan);
 
-        $readingPlan->user->notifications()
-            ->where('data->reading_plan_id', $readingPlan->id)
-            ->delete();
+        DB::transaction(function () use ($readingPlan): void {
+            $readingPlan->user->notifications()
+                ->where('data->reading_plan_id', $readingPlan->id)
+                ->delete();
 
-        $readingPlan->delete();
+            $readingPlan->delete();
+        });
 
         return redirect()
             ->route('reading-plans.index')
