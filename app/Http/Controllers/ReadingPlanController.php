@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ReadingPlanStatus;
-use Illuminate\Support\Facades\DB;
 use App\Http\Requests\ReadingPlanStoreRequest;
 use App\Http\Requests\ReadingPlanUpdateRequest;
 use App\Models\Book;
@@ -11,6 +10,7 @@ use App\Models\ReadingPlan;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 /**
  * 読書計画に関する処理を管理するコントローラー。
@@ -32,7 +32,7 @@ class ReadingPlanController extends Controller
             ->with('book')
             ->when(
                 $currentStatus,
-                fn($query) => $query->where('status', $currentStatus)
+                fn ($query) => $query->where('status', $currentStatus)
             )
             ->get();
 
