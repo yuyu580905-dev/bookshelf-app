@@ -28,6 +28,30 @@
 
 ## 環境構築
 
+### 必要なソフトウェア
+
+環境構築を始める前に、以下のソフトウェアを用意してください。
+
+- Docker Desktop
+- Git
+- Composer
+
+Composerは、依存パッケージのインストール時に使用します。MacでHomebrewを利用している場合、未インストールであれば次のコマンドでインストールできます。
+
+```bash
+brew install composer
+```
+
+インストール後、以下のコマンドで利用できることを確認してください。
+
+```bash
+composer --version
+```
+
+※ Homebrewがインストールされていない場合は、[Homebrew公式サイト](https://brew.sh/ja/) の手順に従ってインストールしてください。
+
+なお、本アプリケーションのPHP実行環境およびNode.js / npmは、Docker Sailのコンテナを利用します。ホスト側に別途インストールする必要はありません。ただし、Docker Desktopが起動しており、コンテナ側に必要な実行環境が用意されていることが前提です。
+
 1. リポジトリをクローン
 
 ```bash
@@ -46,6 +70,17 @@ cd bookshelf-app
 cp .env.example .env
 ```
 
+> .env ファイルを開き、データベース接続情報が以下と一致していることを確認します。
+>
+> DB_CONNECTION=mysql<br>
+> DB_HOST=mysql<br>
+> DB_PORT=3306<br>
+> DB_DATABASE=laravel<br>
+> DB_USERNAME=sail<br>
+> DB_PASSWORD=password<br>
+>
+> 重要: DB_HOST は localhost や 127.0.0.1 ではなく、Dockerコンテナ名である mysql を指定します。
+
 4. Composer依存パッケージをインストール
 
 ```bash
@@ -58,11 +93,39 @@ composer install
 ./vendor/bin/sail up -d
 ```
 
-> `sail` コマンドを短く実行する場合は、以下のエイリアスを設定してください。
->
-> ```bash
-> alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
-> ```
+### Sailコマンドのエイリアス設定（任意）
+
+Sailコマンドを毎回 `./vendor/bin/sail` と入力する代わりに、`sail` だけで実行できるように設定します。
+
+MacでZshを利用している場合は、以下の手順で設定してください。
+
+**1. エイリアスを設定する**
+
+以下のコマンドを実行し、Zshの設定ファイルにエイリアスを追加します。
+
+```bash
+echo "alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'" >> ~/.zshrc
+```
+
+**2. 設定を反映する**
+
+以下のコマンドを実行すると、設定が現在のターミナルに反映されます。
+
+```bash
+exec $SHELL
+```
+
+**3. 設定を確認する**
+
+```bash
+sail --help
+```
+
+ヘルプが表示されれば設定完了です。以降は、`sail artisan key:generate` のように、`sail` からコマンドを実行できます。
+
+※ エイリアスの設定は任意です。設定しない場合は、`./vendor/bin/sail artisan key:generate` のように実行してください。
+
+※ この手順はMacのZshを想定しています。Windowsでは、利用するターミナルやシェルに応じて実行方法が異なります。
 
 6. アプリケーションキーを生成
 
@@ -76,11 +139,15 @@ sail artisan key:generate
 sail artisan migrate --seed
 ```
 
-> DBを初期状態にリセットする場合は、以下を実行してください。
->
-> ```bash
-> sail artisan migrate:fresh --seed
-> ```
+**既存データを削除して初期状態に戻す場合**
+
+開発中のデータなどを削除し、テーブルを再作成して初期データを登録する場合は、以下を実行してください。
+
+```bash
+./vendor/bin/sail artisan migrate:fresh --seed
+```
+
+**注意：このコマンドは既存のテーブルとデータを削除します。必要なデータがある場合は、実行前にバックアップしてください。**
 
 8. npm依存パッケージをインストール
 
@@ -152,7 +219,7 @@ sail npm run build
 sail artisan reading-plans:process
 ```
 
-※本番環境ではLaravelのスケジューラにより、毎日20:00に自動実行されます。
+※ バッチ処理は、Laravelのスケジューラで毎日20:00に実行するよう設定しています。本番環境で自動実行するには、サーバー側でLaravelのスケジューラを起動する設定が必要です。
 
 ## Google Books API について
 
@@ -160,7 +227,7 @@ sail artisan reading-plans:process
 
 ### Google Books API 設定
 
-1. [Google Cloud Console](https://console.cloud.google.com/)でプロジェクトを作成します。
+1. [Google Cloud Console](https://console.cloud.google.com/) でプロジェクトを作成します。
 2. Google Books APIを有効化します。
 3. APIキーを発行します。
 4. `.env` に以下を設定します。
